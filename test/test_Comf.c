@@ -21,7 +21,7 @@ void test_comf_should_complement_value_in_a_file_register_in_ACCESS_bank(){
 	
 }
 
-void test_comf_should_complement_value_in_a_file_register_GPR_bank(){
+void test_comf_should_complement_value_in_a_file_register_in_GPR_bank(){
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = COMF, .name = "comf"},
 					 .operand1 = 0x035, 
@@ -37,5 +37,22 @@ void test_comf_should_complement_value_in_a_file_register_GPR_bank(){
 	//printf("File register: %#x\n", code.operand1+(FSR[BSR]<<8));
 	
 	TEST_ASSERT_EQUAL_HEX8(0x0F, FSR[code.operand1+(FSR[BSR]<<8)]);
+	
+}
+
+void test_comf_should_complement_value_in_a_file_register_and_store_in_WREG(){
+	//Test fixture
+	Bytecode code = {{.mnemonic = COMF, .name = "comf"},
+							.operand1 = 0x08A, 
+							.operand2 =	0, 
+							.operand3 = 1					
+					};
+				
+	//Initialize FSR[0x08A] to 0xFF
+	FSR[code.operand1] = 0xFF;
+	comf(&code);
+	
+	TEST_ASSERT_EQUAL_HEX8(0x00, FSR[WREG]);
+
 	
 }
