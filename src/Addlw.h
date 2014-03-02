@@ -5,4 +5,6 @@
 
 extern char FSR[];
 
+void addlw(Bytecode *code);
+
 #endif	// __ADDLW_H__
