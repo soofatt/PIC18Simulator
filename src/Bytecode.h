@@ -7,6 +7,11 @@
 extern char FSR[];
 
 typedef enum 	{
+					NO_ERROR,
+					ERR_INVALID_OPERAND
+				} ExceptionError;
+
+typedef enum 	{
 					COMF,
 					SETF
 				} Mnemonic;
