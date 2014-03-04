@@ -10,8 +10,12 @@ void comf(Bytecode *code){
 		Throw(ERR_INVALID_OPERAND);
 	}
 	else{
-		if(code->operand2 == 0)
-			FSR[WREG] = ~(FSR[code->operand1]);
+		if(code->operand2 == 0){
+			if(code->operand3 == 0)
+				FSR[WREG] = ~(FSR[code->operand1]);
+			else if(code->operand3 == 1)
+				FSR[WREG] = ~(FSR[code->operand1+(FSR[BSR]<<8)]);
+		}
 		else if(code->operand2 == 1){
 			if(code->operand3 == 0)
 				FSR[code->operand1] = ~(FSR[code->operand1]);

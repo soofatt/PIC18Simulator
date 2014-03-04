@@ -55,7 +55,7 @@ void test_comf_should_complement_value_in_a_file_register_in_GPR_bank(){
 	
 }
 
-void test_comf_should_complement_value_in_a_file_register_and_store_in_WREG(){
+void test_comf_should_complement_value_in_a_file_register_in_ACCESS_bank_and_store_in_WREG(){
 	int catchError;
 	//Test fixture
 	Bytecode code = {{.mnemonic = COMF, .name = "comf"},
@@ -75,6 +75,30 @@ void test_comf_should_complement_value_in_a_file_register_and_store_in_WREG(){
 	}
 	
 	TEST_ASSERT_EQUAL_HEX8(0x00, FSR[WREG]);
+
+}
+
+void test_comf_should_complement_value_in_a_file_register_in_GPR_bank_and_store_in_WREG(){
+	int catchError;
+	//Test fixture
+	Bytecode code = {{.mnemonic = COMF, .name = "comf"},
+							.operand1 = 0x04B, 
+							.operand2 =	0, 
+							.operand3 = 1					
+					};
+				
+	//Initialize FSR[0x24B] to 0x63
+	FSR[BSR] = 0x2;
+	FSR[code.operand1+(FSR[BSR]<<8)] = 0x63;
+	
+	Try{
+		comf(&code);
+	} Catch(catchError){
+		TEST_ASSERT_EQUAL(ERR_INVALID_OPERAND, catchError);
+		return;
+	}
+	
+	TEST_ASSERT_EQUAL_HEX8(0x9C, FSR[WREG]);
 
 }
 
