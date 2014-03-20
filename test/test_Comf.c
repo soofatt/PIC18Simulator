@@ -6,7 +6,7 @@
 void setUp(){}
 void tearDown(){}
 
-void test_comf_should_complement_value_in_a_file_register_in_ACCESS_bank(){
+void test_comf_should_complement_value_in_a_file_register_in_ACCESS_bank_if_less_than_0x80(){
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = COMF, .name = "comf"},
 					 .operand1 = 0x055, 
@@ -20,6 +20,23 @@ void test_comf_should_complement_value_in_a_file_register_in_ACCESS_bank(){
 	comf(&code);
 	
 	TEST_ASSERT_EQUAL_HEX8(0x5A, FSR[0x055]);
+	
+}
+
+void test_comf_should_complement_value_in_a_file_register_in_ACCESS_bank_if_more_than_0x80(){
+	//Test fixture
+	Bytecode code = {.instruction = {.mnemonic = COMF, .name = "comf"},
+					 .operand1 = 0x0D3, 
+					 .operand2 = 1, 
+					 .operand3 = 0					
+					};
+				
+	//Initialize FSR[0xFD3] to 0xFA
+	FSR[code.operand1+(0xF00)] = 0xFA;
+
+	comf(&code);
+	
+	TEST_ASSERT_EQUAL_HEX8(0x05, FSR[0xFD3]);
 	
 }
 
@@ -43,20 +60,37 @@ void test_comf_should_complement_value_in_a_file_register_in_GPR_bank(){
 	
 }
 
-void test_comf_should_complement_value_in_a_file_register_in_ACCESS_bank_and_store_in_WREG(){
+void test_comf_should_complement_value_in_a_file_register_in_ACCESS_bank_and_store_in_WREG_if_less_than_0x80(){
 	//Test fixture
 	Bytecode code = {{.mnemonic = COMF, .name = "comf"},
-							.operand1 = 0x08A, 
+							.operand1 = 0x023, 
 							.operand2 =	0, 
 							.operand3 = 0					
 					};
 				
-	//Initialize FSR[0x08A] to 0xFF
+	//Initialize FSR[0x023] to 0xFF
 	FSR[code.operand1] = 0xFF;
 	
 	comf(&code);
 	
 	TEST_ASSERT_EQUAL_HEX8(0x00, FSR[WREG]);
+
+}
+
+void test_comf_should_complement_value_in_a_file_register_in_ACCESS_bank_and_store_in_WREG_if_more_than_0x80(){
+	//Test fixture
+	Bytecode code = {{.mnemonic = COMF, .name = "comf"},
+							.operand1 = 0x0AC, 
+							.operand2 =	0, 
+							.operand3 = 0					
+					};
+				
+	//Initialize FSR[0xFAC] to 0x88
+	FSR[code.operand1+(0xF00)] = 0x88;
+	
+	comf(&code);
+	
+	TEST_ASSERT_EQUAL_HEX8(0x77, FSR[WREG]);
 
 }
 

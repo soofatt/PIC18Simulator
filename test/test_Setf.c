@@ -32,7 +32,7 @@ void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_ACCESS_bank_fo
 					};
 				
 	//Initialize FSR[0xF96] to 0xC2
-	FSR[code.operand1] = 0xC2;
+	FSR[code.operand1+(0xF00)] = 0xC2;
 
 	setf(&code);
 

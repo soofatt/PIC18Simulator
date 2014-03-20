@@ -17,14 +17,22 @@ void comf(Bytecode *code){
 	}
 	else{
 		if(code->operand2 == 0){
-			if(code->operand3 == 0)
-				FSR[WREG] = ~(FSR[code->operand1]);
+			if(code->operand3 == 0){
+				if(code->operand1 < 0x80)
+					FSR[WREG] = ~(FSR[code->operand1]);
+				if(code->operand1 >= 0x80)
+					FSR[WREG] = ~(FSR[code->operand1+(0xF00)]);
+			}
 			else if(code->operand3 == 1)
 				FSR[WREG] = ~(FSR[code->operand1+(FSR[BSR]<<8)]);
 		}
 		else if(code->operand2 == 1){
-			if(code->operand3 == 0)
-				FSR[code->operand1] = ~(FSR[code->operand1]);
+			if(code->operand3 == 0){
+				if(code->operand1 < 0x80)
+					FSR[code->operand1] = ~(FSR[code->operand1]);
+				if(code->operand1 >= 0x80)
+					FSR[code->operand1+(0xF00)] = ~(FSR[code->operand1+(0xF00)]);
+			}
 			else if(code->operand3 == 1)
 				FSR[code->operand1+(FSR[BSR]<<8)] = ~(FSR[code->operand1+(FSR[BSR]<<8)]);
 		}
