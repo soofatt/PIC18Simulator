@@ -6,7 +6,7 @@
 void setUp(){}
 void tearDown(){}
 
-void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_ACCESS_bank(){
+void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_ACCESS_bank_for_less_than_0x80(){
 	int catchError;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = SETF, .name = "setf"},
@@ -25,7 +25,30 @@ void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_ACCESS_bank(){
 		return;
 	}	
 	
-	TEST_ASSERT_EQUAL_HEX8(0xFF, FSR[code.operand1]);
+	TEST_ASSERT_EQUAL_HEX8(0xFF, FSR[0x031]);
+	
+}
+
+void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_ACCESS_bank_for_more_than_0x80(){
+	int catchError;
+	//Test fixture
+	Bytecode code = {.instruction = {.mnemonic = SETF, .name = "setf"},
+					 .operand1 = 0x096, 
+					 .operand2 = 0, 
+					 .operand3 = -1					
+					};
+				
+	//Initialize FSR[0xF96] to 0xC2
+	FSR[code.operand1] = 0xC2;
+	
+	Try{
+		setf(&code);
+	} Catch(catchError){
+		TEST_ASSERT_EQUAL(ERR_INVALID_OPERAND, catchError);
+		return;
+	}	
+	
+	TEST_ASSERT_EQUAL_HEX8(0xFF, FSR[0xF96]);
 	
 }
 
@@ -49,9 +72,9 @@ void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_GPR_bank(){
 		return;
 	}	
 	
-	//printf("File register: %#x\n", code.operand1+(FSR[BSR]<<8));
+	//printf("File register: %#x\n", FSR[0xC31]);
 	
-	TEST_ASSERT_EQUAL_HEX8(0xFF, FSR[code.operand1+(FSR[BSR]<<8)]);
+	TEST_ASSERT_EQUAL_HEX8(0xFF, FSR[0xC31]);
 	
 }
 
@@ -69,8 +92,5 @@ void test_setf_should_throw_exception_if_invalid_operand(){
 	} Catch(catchError){
 		TEST_ASSERT_EQUAL(ERR_INVALID_OPERAND, catchError);
 		return;
-	}			
-	
-	TEST_ASSERT_EQUAL_HEX8(0xFF, FSR[code.operand1+(FSR[BSR]<<8)]);
-	
+	}
 }

@@ -1,10 +1,17 @@
 #ifndef	__BYTECODE_H__
 #define	__BYTECODE_H__
 
-#define WREG	0xFE8
+//#define WREG	0xFE8
 #define BSR		0xFE0
 
 extern char FSR[];
+
+typedef enum 	{
+					ACCESS = -5,
+					BANKED,
+					FILEREG,
+					WREG
+				} Operand;
 
 typedef enum 	{
 					NO_ERROR,
