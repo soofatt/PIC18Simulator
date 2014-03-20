@@ -41,7 +41,7 @@ void test_addlw_should_add_a_hex_value_to_WREG(){
 	
 }
 
-void test_addlw_should_throw_exception_if_invalid_operand(){
+void test_addlw_should_throw_exception_if_invalid_operand1(){
 	int catchError;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = ADDLW, .name = "addlw"},
@@ -50,15 +50,53 @@ void test_addlw_should_throw_exception_if_invalid_operand(){
 					 .operand3 = -1					
 					};
 				
-	//Initialize WREG to 0 and add 0x20 to WREG
+	//Initialize WREG to 0
 	FSR[WREG] = 0x00;
+	
 	Try{
 		addlw(&code);
 	} Catch(catchError){
-			TEST_ASSERT_EQUAL(ERR_INVALID_OPERAND, catchError);
-			return;
+		TEST_ASSERT_EQUAL(ERR_INVALID_OPERAND, catchError);
+		return;
 	}
-	
-	TEST_ASSERT_EQUAL_HEX8(0x20, FSR[WREG]);
+}
 
+void test_addlw_should_throw_exception_if_invalid_operand2(){
+	int catchError;
+	//Test fixture
+	Bytecode code = {.instruction = {.mnemonic = ADDLW, .name = "addlw"},
+					 .operand1 = -1, 
+					 .operand2 = WREG, 
+					 .operand3 = -1					
+					};
+				
+	//Initialize WREG to 0
+	FSR[WREG] = 0x00;
+	
+	Try{
+		addlw(&code);
+	} Catch(catchError){
+		TEST_ASSERT_EQUAL(ERR_INVALID_OPERAND, catchError);
+		return;
+	}
+}
+
+void test_addlw_should_throw_exception_if_invalid_operand3(){
+	int catchError;
+	//Test fixture
+	Bytecode code = {.instruction = {.mnemonic = ADDLW, .name = "addlw"},
+					 .operand1 = -1, 
+					 .operand2 = -1, 
+					 .operand3 = BANKED					
+					};
+				
+	//Initialize WREG to 0
+	FSR[WREG] = 0x00;
+	
+	Try{
+		addlw(&code);
+	} Catch(catchError){
+		TEST_ASSERT_EQUAL(ERR_INVALID_OPERAND, catchError);
+		return;
+	}
 }
