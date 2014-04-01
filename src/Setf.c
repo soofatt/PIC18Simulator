@@ -1,10 +1,8 @@
 #include <stdio.h>
 #include "CException.h"
 #include "Bytecode.h"
-#include "Setf.h"
 #include "Execute.h"
-
-char FSR[0x1000];
+#include "Setf.h"
 
 void setf(Bytecode *code){
 	int validOp = 0;
