@@ -79,4 +79,56 @@ void test_lfsr_should_load_0x4DA_into_LFSR2(){
 	
 }
 
+void test_lfsr_should_throw_exception_if_invalid_operand1(){
+	CEXCEPTION_T catchError;
+	//Test fixture
+	Bytecode code = {.instruction = {.mnemonic = LFSR, .name = "lfsr"},
+					 .operand1 = 3, 
+					 .operand2 = 0x2A1, 
+					 .operand3 = -1					
+					};
+	
+	Try{
+		lfsr(&code);
+	} Catch(catchError){
+		TEST_ASSERT_EQUAL(ERR_INVALID_OPERAND, catchError);
+	}
+	
+}
 
+void test_lfsr_should_throw_exception_if_invalid_operand2(){
+	CEXCEPTION_T catchError;
+	//Test fixture
+	Bytecode code = {.instruction = {.mnemonic = LFSR, .name = "lfsr"},
+					 .operand1 = 1, 
+					 .operand2 = 0x3F6D, 
+					 .operand3 = -1					
+					};
+	//Initialize FSR[FSR1L] and FSR[FSR1H] to 0
+	FSR[FSR1H] = 0x00;
+	FSR[FSR1L] = 0x00;
+	
+	Try{
+		lfsr(&code);
+	} Catch(catchError){
+		TEST_ASSERT_EQUAL(ERR_INVALID_OPERAND, catchError);
+	}
+	
+}
+
+void test_lfsr_should_throw_exception_if_invalid_operand3(){
+	CEXCEPTION_T catchError;
+	//Test fixture
+	Bytecode code = {.instruction = {.mnemonic = LFSR, .name = "lfsr"},
+					 .operand1 = 2, 
+					 .operand2 = 0x8FF, 
+					 .operand3 = 2					
+					};
+	
+	Try{
+		lfsr(&code);
+	} Catch(catchError){
+		TEST_ASSERT_EQUAL(ERR_INVALID_OPERAND, catchError);
+	}
+	
+}

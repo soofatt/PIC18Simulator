@@ -39,4 +39,6 @@ void lfsr(Bytecode *code){
 			Throw(ERR_INVALID_OPERAND);
 			break;
 	}
+	
+	PC += 2;
 }
