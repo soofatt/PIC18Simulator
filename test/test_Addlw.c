@@ -8,7 +8,7 @@ void setUp(){}
 void tearDown(){}
 
 void test_addlw_should_add_a_hex_value_to_WREG(){
-	int catchError;
+	CEXCEPTION_T catchError;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = ADDLW, .name = "addlw"},
 					 .operand1 = 0x20, 
@@ -41,7 +41,7 @@ void test_addlw_should_add_a_hex_value_to_WREG(){
 }
 
 void test_addlw_should_set_carry_flag(){
-	int catchError;
+	CEXCEPTION_T catchError;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = ADDLW, .name = "addlw"},
 					 .operand1 = 0xC2, 
@@ -65,7 +65,7 @@ void test_addlw_should_set_carry_flag(){
 }
 
 void test_addlw_should_set_digital_carry_flag(){
-	int catchError;
+	CEXCEPTION_T catchError;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = ADDLW, .name = "addlw"},
 					 .operand1 = 0x08, 
@@ -89,7 +89,7 @@ void test_addlw_should_set_digital_carry_flag(){
 }
 
 void test_addlw_should_set_zero_flag(){
-	int catchError;
+	CEXCEPTION_T catchError;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = ADDLW, .name = "addlw"},
 					 .operand1 = 0x00, 
@@ -113,7 +113,7 @@ void test_addlw_should_set_zero_flag(){
 }
 
 void test_addlw_should_set_overflow_flag(){
-	int catchError;
+	CEXCEPTION_T catchError;
 	//Test fixture 1
 	Bytecode code = {.instruction = {.mnemonic = ADDLW, .name = "addlw"},
 					 .operand1 = 0x40, 
@@ -158,7 +158,7 @@ void test_addlw_should_set_overflow_flag(){
 }
 
 void test_addlw_should_set_negative_flag(){
-	int catchError;
+	CEXCEPTION_T catchError;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = ADDLW, .name = "addlw"},
 					 .operand1 = 0x62, 
@@ -182,7 +182,7 @@ void test_addlw_should_set_negative_flag(){
 }
 
 void test_addlw_should_throw_exception_if_invalid_operand1(){
-	int catchError;
+	CEXCEPTION_T catchError;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = ADDLW, .name = "addlw"},
 					 .operand1 = -1, 
@@ -201,7 +201,7 @@ void test_addlw_should_throw_exception_if_invalid_operand1(){
 }
 
 void test_addlw_should_throw_exception_if_invalid_operand2(){
-	int catchError;
+	CEXCEPTION_T catchError;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = ADDLW, .name = "addlw"},
 					 .operand1 = -1, 
@@ -220,7 +220,7 @@ void test_addlw_should_throw_exception_if_invalid_operand2(){
 }
 
 void test_addlw_should_throw_exception_if_invalid_operand3(){
-	int catchError;
+	CEXCEPTION_T catchError;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = ADDLW, .name = "addlw"},
 					 .operand1 = -1, 

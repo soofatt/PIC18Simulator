@@ -4,6 +4,12 @@
 #define WREG	0xFE8
 #define BSR		0xFE0
 #define STATUS	0xFD8 //X X X N OV Z DC C (Bit 7 : 0)
+#define FSR0H	0xFEA
+#define FSR0L	0xFE9
+#define FSR1H	0xFE2
+#define FSR1L	0xFE1
+#define FSR2H	0xFDA
+#define FSR2L	0xFD9
 
 extern unsigned char FSR[];
 extern int PC;

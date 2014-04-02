@@ -2,7 +2,8 @@
 #define	__BYTECODE_H__
 
 typedef enum 	{
-					ADDLW
+					ADDLW,
+					LFSR
 				} Mnemonic;
 				
 typedef struct {

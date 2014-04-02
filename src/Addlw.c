@@ -36,6 +36,8 @@ void addlw(Bytecode *code){
 		if(negFlag == 1)
 			FSR[STATUS] = (FSR[STATUS] | 0x10);	
 	}
+	
+	PC += 2;
 }
 
 int overflowCheck(unsigned char wreg, int operand1){
