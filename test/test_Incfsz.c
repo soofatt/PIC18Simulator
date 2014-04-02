@@ -111,6 +111,32 @@ void test_incfsz_should_increment_PC_by_2_if_not_skip_for_ACCESS_bank_address_mo
 		
 }
 
+void test_incfsz_should_increment_PC_by_4_if_skip_for_default_op3_bank_address_less_than_0x80(){
+	CEXCEPTION_T catchError;
+	//Test fixture
+	Bytecode code = {.instruction = {.mnemonic = INCFSZ, .name = "incfsz"},
+					 .operand1 = 0x020, 
+					 .operand2 = 1, 
+					 .operand3 = -1					
+					};
+				
+	//Initialize FSR[0x020] to 0xFF
+	FSR[code.operand1] = 0xFF;
+	//Initialize PC to 0
+	PC = 0;
+
+	Try{
+		incfsz(&code);
+	}Catch(catchError){
+		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
+	};
+
+	
+	TEST_ASSERT_EQUAL_HEX8(0x00, FSR[0x020]);
+	TEST_ASSERT_EQUAL(4, PC);
+		
+}
+
 void test_incfsz_should_increment_PC_by_4_if_skip_for_GPR_bank(){
 	CEXCEPTION_T catchError;
 	//Test fixture

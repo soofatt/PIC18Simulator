@@ -52,6 +52,29 @@ void test_comf_should_complement_value_in_a_file_register_in_ACCESS_bank_if_more
 	
 }
 
+void test_comf_should_complement_value_in_a_file_register_in_default_op3_bank_if_less_than_0x80(){
+	CEXCEPTION_T catchError;
+	//Test fixture
+	Bytecode code = {.instruction = {.mnemonic = COMF, .name = "comf"},
+					 .operand1 = 0x015, 
+					 .operand2 = 1, 
+					 .operand3 = -1					
+					};
+				
+	//Initialize FSR[0x015] to 0xA5
+	FSR[code.operand1] = 0xA5;
+
+	Try{
+		comf(&code);
+	}Catch(catchError){
+		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
+	};
+
+	
+	TEST_ASSERT_EQUAL_HEX8(0x5A, FSR[0x015]);
+	
+}
+
 void test_comf_should_complement_value_in_a_file_register_in_GPR_bank(){
 	CEXCEPTION_T catchError;
 	//Test fixture

@@ -51,6 +51,28 @@ void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_ACCESS_bank_fo
 	
 }
 
+void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_default_op2_bank_for_less_than_0x80(){
+	//Test fixture
+	CEXCEPTION_T catchError;
+	Bytecode code = {.instruction = {.mnemonic = SETF, .name = "setf"},
+					 .operand1 = 0x035, 
+					 .operand2 = -1, 
+					 .operand3 = -1					
+					};
+				
+	//Initialize FSR[0x035] to 0xA2
+	FSR[code.operand1] = 0xA2;
+	
+	Try{
+		setf(&code);
+	}Catch(catchError){
+		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
+	};
+
+	TEST_ASSERT_EQUAL_HEX8(0xFF, FSR[0x035]);
+	
+}
+
 void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_GPR_bank(){
 	//Test fixture
 	CEXCEPTION_T catchError;
