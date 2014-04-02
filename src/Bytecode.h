@@ -3,7 +3,8 @@
 
 typedef enum 	{
 					COMF,
-					SETF
+					SETF,
+					INCFSZ
 				} Mnemonic;
 				
 typedef struct {
