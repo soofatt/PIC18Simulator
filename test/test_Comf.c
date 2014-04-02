@@ -318,7 +318,6 @@ void test_comf_should_throw_exception_if_invalid_BSR_value(){
 					};	
 	//Initialize FSR[BSR] to 0x3A					
 	FSR[BSR] = 0x3A;
-	FSR[code.operand1+(FSR[BSR]<<8)] = 0x11;
 	
 	Try{
 		comf(&code);
