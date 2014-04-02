@@ -4,12 +4,13 @@
 #include <stdio.h>
 
 unsigned char FSR[0x1000];
+int PC;
 
 void execute(Bytecode *code){
 }
 
 int operandCheckFor2Args(Bytecode *code){
-	if(code->operand1 < 0x00 || code->operand1 > 0xFF){
+	if(code->operand1 < 0x00 || (code->operand1 > 0xFF && code->operand1 < 0xF80) || code->operand1 > 0xFFF){
 		Throw(ERR_INVALID_OPERAND);
 	}
 	
@@ -32,7 +33,7 @@ int operandCheckFor2Args(Bytecode *code){
 }
 
 int operandCheckFor3Args(Bytecode *code){
-	if(code->operand1 < 0x00 || code->operand1 > 0xFF){
+	if(code->operand1 < 0x00 || (code->operand1 > 0xFF && code->operand1 < 0xF80) || code->operand1 > 0xFFF){
 		Throw(ERR_INVALID_OPERAND);
 	}
 	

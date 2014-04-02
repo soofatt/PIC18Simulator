@@ -124,7 +124,7 @@ void test_setf_should_throw_exception_if_invalid_operand3(){
 	}
 }
 
-void test_setf_should_throw_exception_if_invalid_bsr(){
+void test_setf_should_throw_exception_if_invalid_BSR_value(){
 	CEXCEPTION_T catchError;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = SETF, .name = "setf"},
@@ -140,5 +140,24 @@ void test_setf_should_throw_exception_if_invalid_bsr(){
 		setf(&code);
 	} Catch(catchError){
 		TEST_ASSERT_EQUAL(ERR_INVALID_BSR_VALUE, catchError);
+	}
+}
+
+void test_setf_should_throw_exception_if_invalid_address(){
+	CEXCEPTION_T catchError;
+	//Test fixture
+	Bytecode code = {.instruction = {.mnemonic = SETF, .name = "setf"},
+					 .operand1 = WREG, 
+					 .operand2 = 0, 
+					 .operand3 = -1					
+					};
+	//Initialize FSR[BSR] to 0x5				
+	FSR[BSR] = 0x5;
+	FSR[code.operand1+(FSR[BSR]<<8)] = 0x12;
+	
+	Try{
+		setf(&code);
+	} Catch(catchError){
+		TEST_ASSERT_EQUAL(ERR_INVALID_ADDRESS, catchError);
 	}
 }
