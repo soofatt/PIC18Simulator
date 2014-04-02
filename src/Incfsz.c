@@ -50,9 +50,9 @@ void incfsz(Bytecode *code){
 			break;
 			
 		case 4 : //Store in WREG using ACCESS bank (address is <0x80)
-			FSR[WREG] = (FSR[code->operand1])++;
+			FSR[WREG] = ++FSR[code->operand1];
 			
-			if(FSR[WREG] == 0)
+			if(FSR[code->operand1] == 0)
 				PC += 4;
 			else
 				PC += 2;
@@ -60,9 +60,9 @@ void incfsz(Bytecode *code){
 			break;
 			
 		case 5 : //Store in WREG using ACCESS bank (address is >0x80)
-			FSR[WREG] = (FSR[code->operand1+(0xF00)])++;
+			FSR[WREG] = ++FSR[code->operand1+(0xF00)];
 			
-			if(FSR[WREG] == 0)
+			if(FSR[code->operand1+(0xF00)] == 0)
 				PC += 4;
 			else
 				PC += 2;
@@ -75,9 +75,10 @@ void incfsz(Bytecode *code){
 			else if(regAddrCheck > 0xFFF)
 				Throw(ERR_INVALID_ADDRESS);
 			else{
-				FSR[WREG] = (FSR[code->operand1+(FSR[BSR]<<8)])++;
-				
-				if(FSR[WREG] == 0)
+				//FSR[code->operand1+(FSR[BSR]<<8)]++;
+				FSR[WREG] = ++FSR[code->operand1+(FSR[BSR]<<8)];
+
+				if(FSR[code->operand1+(FSR[BSR]<<8)] == 0)
 					PC += 4;
 				else
 					PC += 2;	
