@@ -2,18 +2,6 @@
 #define	__BYTECODE_H__
 
 typedef enum 	{
-					ACCESS = -5,
-					BANKED,
-					FILEREG,
-					WREG
-				} Operand;
-
-typedef enum 	{
-					NO_ERROR,
-					ERR_INVALID_OPERAND
-				} ExceptionError;
-
-typedef enum 	{
 					ADDLW
 				} Mnemonic;
 				
@@ -27,6 +15,7 @@ typedef struct {
 	int operand1;
 	int operand2;
 	int operand3;
+	int absoluteAddress;
 } Bytecode;
 
 #endif	// __BYTECODE_H__
