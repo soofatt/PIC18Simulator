@@ -2,109 +2,107 @@
 #include "CException.h"
 #include "Bytecode.h"
 #include "Execute.h"
-#include "Bc.h"
+#include "Bnov.h"
 
 void setUp(){}
 void tearDown(){}
 
-void test_bc_should_return_1_if_branching(){
+void test_bnov_should_return_1_if_branching(){
 	CEXCEPTION_T catchError;
 	int result;
 	//Test fixture
-	Bytecode code = {.instruction = {.mnemonic = BC, .name = "bc"},
-					 .operand1 = 0x22, 
+	Bytecode code = {.instruction = {.mnemonic = BNOV, .name = "bnov"},
+					 .operand1 = 0xC3, 
 					 .operand2 = -1, 
 					 .operand3 = -1					
 					};
 				
-	//Initialize FSR[STATUS] to 0x11
-	FSR[STATUS] = 0x11;
+	//Initialize FSR[STATUS] to 0x10
+	FSR[STATUS] = 0x10;
 	
 	Try{
-		result = bc(&code);
+		result = bnov(&code);
 	} Catch(catchError){
 		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
 	}
 	
-	TEST_ASSERT_EQUAL_HEX8(0x11, FSR[STATUS]);
+	TEST_ASSERT_EQUAL_HEX8(0x10, FSR[STATUS]);
 	TEST_ASSERT_EQUAL(1, result);
-
 }
 
-void test_bc_should_return_0_if_not_branching(){
+void test_bnov_should_return_0_if_not_branching(){
 	CEXCEPTION_T catchError;
 	int result;
 	//Test fixture
-	Bytecode code = {.instruction = {.mnemonic = BC, .name = "bc"},
-					 .operand1 = 0xA5, 
+	Bytecode code = {.instruction = {.mnemonic = BNOV, .name = "bnov"},
+					 .operand1 = 0x35, 
 					 .operand2 = -1, 
 					 .operand3 = -1					
 					};
 				
-	//Initialize FSR[STATUS] to 0x00
-	FSR[STATUS] = 0x00;
+	//Initialize FSR[STATUS] to 0x18
+	FSR[STATUS] = 0x18;
 	
 	Try{
-		result = bc(&code);
+		result = bnov(&code);
 	} Catch(catchError){
 		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
 	}
 	
-	TEST_ASSERT_EQUAL_HEX8(0x00, FSR[STATUS]);
+	TEST_ASSERT_EQUAL_HEX8(0x18, FSR[STATUS]);
 	TEST_ASSERT_EQUAL(0, result);
-
 }
 
-void test_bc_should_throw_exception_if_invalid_operand1(){
+void test_bnov_should_throw_exception_if_invalid_operand1(){
 	CEXCEPTION_T catchError;
 	int result;
 	//Test fixture
-	Bytecode code = {.instruction = {.mnemonic = BC, .name = "bc"},
-					 .operand1 = 130, 
+	Bytecode code = {.instruction = {.mnemonic = BNOV, .name = "bnov"},
+					 .operand1 = 154, 
 					 .operand2 = -1, 
 					 .operand3 = -1					
 					};
 	
 	Try{
-		result = bc(&code);
+		result = bnov(&code);
 	} Catch(catchError){
 		TEST_ASSERT_EQUAL(ERR_INVALID_OPERAND, catchError);
 	}
-
+	
 }
 
-void test_bc_should_throw_exception_if_invalid_operand2(){
+void test_bnov_should_throw_exception_if_invalid_operand2(){
 	CEXCEPTION_T catchError;
 	int result;
 	//Test fixture
-	Bytecode code = {.instruction = {.mnemonic = BC, .name = "bc"},
-					 .operand1 = 0xF2, 
-					 .operand2 = BANKED, 
+	Bytecode code = {.instruction = {.mnemonic = BNOV, .name = "bnov"},
+					 .operand1 = 0xD1, 
+					 .operand2 = 3, 
 					 .operand3 = -1					
-					};				
+					};
 	
 	Try{
-		result = bc(&code);
+		result = bnov(&code);
 	} Catch(catchError){
 		TEST_ASSERT_EQUAL(ERR_INVALID_OPERAND, catchError);
 	}
-
+	
 }
 
-void test_bc_should_throw_exception_if_invalid_operand3(){
+void test_bnov_should_throw_exception_if_invalid_operand3(){
 	CEXCEPTION_T catchError;
 	int result;
 	//Test fixture
-	Bytecode code = {.instruction = {.mnemonic = BC, .name = "bc"},
-					 .operand1 = 0x56, 
+	Bytecode code = {.instruction = {.mnemonic = BNOV, .name = "bnov"},
+					 .operand1 = 0x13, 
 					 .operand2 = -1, 
-					 .operand3 = ACCESS					
-					};				
+					 .operand3 = -8					
+					};
 	
 	Try{
-		result = bc(&code);
+		result = bnov(&code);
 	} Catch(catchError){
 		TEST_ASSERT_EQUAL(ERR_INVALID_OPERAND, catchError);
 	}
-
+	
 }
