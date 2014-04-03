@@ -12,6 +12,7 @@
 #define FSR2L	0xFD9
 
 extern unsigned char FSR[];
+extern unsigned int PIC18Stack[];
 
 typedef enum 	{
 					ACCESS = -5,

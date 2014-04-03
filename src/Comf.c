@@ -20,8 +20,12 @@ int comf(Bytecode *code){
 			
 			if(FSR[code->operand1] == 0)
 				FSR[STATUS] = (FSR[STATUS] | 0x04);
+			else
+				FSR[STATUS] = (FSR[STATUS] & 0xFB);	
 			if(negFlag == 1)
 				FSR[STATUS] = (FSR[STATUS] | 0x10);
+			else
+				FSR[STATUS] = (FSR[STATUS] & 0xEF);	
 				
 			return 0;
 			break;

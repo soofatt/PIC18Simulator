@@ -4,6 +4,7 @@
 #include <stdio.h>
 
 unsigned char FSR[0x1000];
+unsigned int PIC18Stack[32];
 
 void execute(Bytecode *code){
 }

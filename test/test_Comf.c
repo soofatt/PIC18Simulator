@@ -257,7 +257,7 @@ void test_comf_should_set_zero_flag_if_result_is_zero(){
 
 	
 	TEST_ASSERT_EQUAL_HEX8(0x00, FSR[0x025]);
-	TEST_ASSERT_EQUAL_HEX8(0x06, FSR[STATUS]);
+	TEST_ASSERT_EQUAL_HEX8(0x06, FSR[STATUS]); // 0x06 = 0000 0110, zero flag and DC flag(initial) set
 	TEST_ASSERT_EQUAL(0, result);
 	
 }
@@ -285,7 +285,35 @@ void test_comf_should_set_negative_flag_if_result_is_negative(){
 
 	
 	TEST_ASSERT_EQUAL_HEX8(0xB5, FSR[0x010]);
-	TEST_ASSERT_EQUAL_HEX8(0x12, FSR[STATUS]);
+	TEST_ASSERT_EQUAL_HEX8(0x12, FSR[STATUS]); // 0x12 = 0001 0010, negative flag and DC flag(initial) set
+	TEST_ASSERT_EQUAL(0, result);
+	
+}
+
+void test_comf_should_clear_negative_and_zero_flag(){
+	CEXCEPTION_T catchError;
+	int result;
+	//Test fixture
+	Bytecode code = {.instruction = {.mnemonic = COMF, .name = "comf"},
+					 .operand1 = 0x015, 
+					 .operand2 = 1, 
+					 .operand3 = 0					
+					};
+				
+	//Initialize FSR[0x015] to 0x80
+	FSR[code.operand1] = 0x80;
+	//Initialize FSR[STATUS] to 0x02
+	FSR[STATUS] = 0x14;
+
+	Try{
+		result = comf(&code);
+	}Catch(catchError){
+		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
+	};
+
+	
+	TEST_ASSERT_EQUAL_HEX8(0x7F, FSR[0x015]);
+	TEST_ASSERT_EQUAL_HEX8(0x00, FSR[STATUS]); // 0x12 = 0001 0010, negative flag and DC flag(initial) set
 	TEST_ASSERT_EQUAL(0, result);
 	
 }
