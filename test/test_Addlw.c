@@ -194,6 +194,32 @@ void test_addlw_should_set_negative_flag(){
 	TEST_ASSERT_EQUAL(0, result);
 }
 
+void test_addlw_should_clear_all_status_flag(){
+	CEXCEPTION_T catchError;
+	int result;
+	//Test fixture
+	Bytecode code = {.instruction = {.mnemonic = ADDLW, .name = "addlw"},
+					 .operand1 = 0x01, 
+					 .operand2 = -1, 
+					 .operand3 = -1					
+					};
+				
+	//Initialize WREG to 0x00 and add 0x01 to WREG
+	FSR[WREG] = 0x00;
+	//Initialize STATUS to 0x04
+	FSR[STATUS] = 0x1F;
+	
+	Try{
+		result = addlw(&code);
+	} Catch(catchError){
+		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
+	}
+	
+	TEST_ASSERT_EQUAL_HEX8(0x01, FSR[WREG]);
+	TEST_ASSERT_EQUAL_HEX8(0x00, FSR[STATUS]);
+	TEST_ASSERT_EQUAL(0, result);
+}
+
 void test_addlw_should_throw_exception_if_invalid_operand1(){
 	CEXCEPTION_T catchError;
 	int result;

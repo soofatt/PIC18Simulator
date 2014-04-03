@@ -23,18 +23,28 @@ int addlw(Bytecode *code){
 		
 		if(carryCheck(wreg, operand1) == 1)
 			FSR[STATUS] = (FSR[STATUS] | 0x01);
-		
+		else
+			FSR[STATUS] = (FSR[STATUS] & 0xFE);
+			
 		if(digitalCarryCheck(wreg, operand1) == 1)
 			FSR[STATUS] = (FSR[STATUS] | 0x02);
-		
+		else
+			FSR[STATUS] = (FSR[STATUS] & 0xFD);
+			
 		if(FSR[WREG] == 0)
 			FSR[STATUS] = (FSR[STATUS] | 0x04);
+		else
+			FSR[STATUS] = (FSR[STATUS] & 0xFB);	
 			
 		if(overflowCheck(wreg, operand1) == 1)
 			FSR[STATUS] = (FSR[STATUS] | 0x08);	
+		else
+			FSR[STATUS] = (FSR[STATUS] & 0xF7);	
 			
 		if(negFlag == 1)
 			FSR[STATUS] = (FSR[STATUS] | 0x10);	
+		else
+			FSR[STATUS] = (FSR[STATUS] & 0xEF);	
 	}
 	
 	return 0;
