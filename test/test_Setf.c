@@ -106,6 +106,55 @@ void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_GPR_bank(){
 	
 }
 
+void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_ACCESS_bank_if_operand1_is_0x250(){
+	CEXCEPTION_T catchError;
+	int result;
+	//Test fixture
+	Bytecode code = {.instruction = {.mnemonic = SETF, .name = "setf"},
+					 .operand1 = 0x250, 
+					 .operand2 = ACCESS, 
+					 .operand3 = -1					
+					};
+				
+	//Should set FSR[0x050] to 0xFF instead of FSR[0x250];
+	FSR[0x050] = 0x01;
+	
+	Try{
+		result = setf(&code);
+	}Catch(catchError){
+		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
+	};
+	
+	TEST_ASSERT_EQUAL_HEX8(0xFF, FSR[0x050]);
+	TEST_ASSERT_EQUAL(0, result);
+	
+}
+
+void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_GPR_bank_if_operand1_is_0x250(){
+	CEXCEPTION_T catchError;
+	int result;
+	//Test fixture
+	Bytecode code = {.instruction = {.mnemonic = SETF, .name = "setf"},
+					 .operand1 = 0x250, 
+					 .operand2 = BANKED, 
+					 .operand3 = -1					
+					};
+	//Initialize FSR[0x350] to 0x20
+	FSR[BSR] = 0x3;
+	FSR[0x350] = 0x20;			
+	//Should set FSR[0x350] to 0xFF instead of FSR[0x250];
+	
+	Try{
+		result = setf(&code);
+	}Catch(catchError){
+		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
+	};
+	
+	TEST_ASSERT_EQUAL_HEX8(0xFF, FSR[0x350]);
+	TEST_ASSERT_EQUAL(0, result);
+	
+}
+
 void test_setf_should_throw_exception_if_invalid_operand1(){
 	CEXCEPTION_T catchError;
 	int result;

@@ -181,6 +181,59 @@ void test_comf_should_complement_value_in_a_file_register_in_GPR_bank_and_store_
 
 }
 
+void test_comf_should_complement_value_in_a_file_register_in_ACCESS_bank_if_operand1_is_0xC20(){
+	CEXCEPTION_T catchError;
+	int result;
+	//Test fixture
+	Bytecode code = {.instruction = {.mnemonic = COMF, .name = "comf"},
+					 .operand1 = 0xC20, 
+					 .operand2 = 1, 
+					 .operand3 = 0					
+					};
+				
+	//Initialize FSR[0x020] to 0xA5
+	FSR[0x020] = 0xA5;
+	//Should complement FSR[0x020] instead of FSR[0xC20]
+
+	Try{
+		result = comf(&code);
+	}Catch(catchError){
+		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
+	};
+
+	
+	TEST_ASSERT_EQUAL_HEX8(0x5A, FSR[0x020]);
+	TEST_ASSERT_EQUAL(0, result);
+	
+}
+
+void test_comf_should_complement_value_in_a_file_register_in_GPR_bank_if_operand1_is_0xD20(){
+	CEXCEPTION_T catchError;
+	int result;
+	//Test fixture
+	Bytecode code = {.instruction = {.mnemonic = COMF, .name = "comf"},
+					 .operand1 = 0xD20, 
+					 .operand2 = 1, 
+					 .operand3 = 1					
+					};
+				
+	//Initialize FSR[0xA20] to 0xA5
+	FSR[BSR] = 0x0A;
+	FSR[0xA20] = 0xA5;
+	//Should complement FSR[0xA20] instead of FSR[0xD20]
+
+	Try{
+		result = comf(&code);
+	}Catch(catchError){
+		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
+	};
+
+	
+	TEST_ASSERT_EQUAL_HEX8(0x5A, FSR[0xA20]);
+	TEST_ASSERT_EQUAL(0, result);
+	
+}
+
 void test_comf_should_set_zero_flag_if_result_is_zero(){
 	CEXCEPTION_T catchError;
 	int result;

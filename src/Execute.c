@@ -4,15 +4,13 @@
 #include <stdio.h>
 
 unsigned char FSR[0x1000];
-int PC;
 
 void execute(Bytecode *code){
 }
 
 int operandCheckFor2Args(Bytecode *code){
-	if(code->operand1 < 0x00 || (code->operand1 > 0xFF && code->operand1 < 0xF80) || code->operand1 > 0xFFF){
-		Throw(ERR_INVALID_OPERAND);
-	}
+	
+	isValidOperand1(code);
 	
 	isValidOperand2(code);
 	
@@ -33,9 +31,8 @@ int operandCheckFor2Args(Bytecode *code){
 }
 
 int operandCheckFor3Args(Bytecode *code){
-	if(code->operand1 < 0x00 || (code->operand1 > 0xFF && code->operand1 < 0xF80) || code->operand1 > 0xFFF){
-		Throw(ERR_INVALID_OPERAND);
-	}
+
+	isValidOperand1(code);
 	
 	isValidOperand2(code);
 	
@@ -73,6 +70,16 @@ int operandCheckFor3Args(Bytecode *code){
 	
 	else if(code->operand2 == 1 || code->operand2 == BANKED)
 		return 3;	
+}
+
+void isValidOperand1(Bytecode *code){
+	if(code->operand1 < 0x000 || code->operand1 > 0xFFF){
+		Throw(ERR_INVALID_OPERAND);
+	}
+	else if(code->operand1 > 0x0FF && code->operand1 < 0xF80){
+		printf("Warning : Exceeded operand1 range.\n");
+		code->operand1 = (code->operand1 & 0x0FF);
+	}
 }
 
 void isValidOperand2(Bytecode *code){

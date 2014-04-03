@@ -19,8 +19,6 @@ void test_incfsz_should_return_1_if_skip_for_ACCESS_bank_address_less_than_0x80(
 				
 	//Initialize FSR[0x040] to 0xFF
 	FSR[code.operand1] = 0xFF;
-	//Initialize PC to 0
-	PC = 0;
 
 	Try{
 		result = incfsz(&code);
@@ -46,8 +44,6 @@ void test_incfsz_should_return_0_if_not_skip_for_ACCESS_bank_address_less_than_0
 				
 	//Initialize FSR[0x030] to 0x0F
 	FSR[code.operand1] = 0x0F;
-	//Initialize PC to 0
-	PC = 0;
 
 	Try{
 		result = incfsz(&code);
@@ -73,8 +69,6 @@ void test_incfsz_should_return_1_if_skip_for_ACCESS_bank_address_more_than_0x80(
 				
 	//Initialize FSR[0xFD0] to 0xFF
 	FSR[code.operand1+(0xF00)] = 0xFF;
-	//Initialize PC to 0
-	PC = 0;
 
 	Try{
 		result = incfsz(&code);
@@ -100,8 +94,6 @@ void test_incfsz_should_return_0_if_not_skip_for_ACCESS_bank_address_more_than_0
 				
 	//Initialize FSR[0xFA0] to 0x0F
 	FSR[code.operand1+(0xF00)] = 0x0F;
-	//Initialize PC to 0
-	PC = 0;
 
 	Try{
 		result = incfsz(&code);
@@ -127,8 +119,6 @@ void test_incfsz_should_return_1_if_skip_for_default_op3_bank_address_less_than_
 				
 	//Initialize FSR[0x020] to 0xFF
 	FSR[code.operand1] = 0xFF;
-	//Initialize PC to 0
-	PC = 0;
 
 	Try{
 		result = incfsz(&code);
@@ -155,8 +145,6 @@ void test_incfsz_should_return_1_if_skip_for_GPR_bank(){
 	//Initialize FSR[0x345] to 0xFF
 	FSR[BSR] = 0x3;
 	FSR[code.operand1+(FSR[BSR]<<8)] = 0xFF;
-	//Initialize PC to 0
-	PC = 0;
 
 	Try{
 		result = incfsz(&code);
@@ -183,8 +171,6 @@ void test_incfsz_should_return_0_if_not_skip_for_GPR_bank(){
 	//Initialize FSR[0x2C5] to 0x0F
 	FSR[BSR] = 0x2;
 	FSR[code.operand1+(FSR[BSR]<<8)] = 0x0F;
-	//Initialize PC to 0
-	PC = 0;
 
 	Try{
 		result = incfsz(&code);
@@ -210,8 +196,6 @@ void test_incfsz_should_return_1_if_skip_for_ACCESS_bank_address_less_than_0x80_
 				
 	//Initialize FSR[0x040] to 0xFF
 	FSR[code.operand1] = 0xFF;
-	//Initialize PC to 0
-	PC = 0;
 
 	Try{
 		result = incfsz(&code);
@@ -237,8 +221,6 @@ void test_incfsz_should_return_0_if_not_skip_for_ACCESS_bank_address_less_than_0
 				
 	//Initialize FSR[0x030] to 0x0F
 	FSR[code.operand1] = 0x0F;
-	//Initialize PC to 0
-	PC = 0;
 
 	Try{
 		result = incfsz(&code);
@@ -264,8 +246,6 @@ void test_incfsz_should_return_1_if_skip_for_ACCESS_bank_address_more_than_0x80_
 				
 	//Initialize FSR[0xFD0] to 0xFF
 	FSR[code.operand1+(0xF00)] = 0xFF;
-	//Initialize PC to 0
-	PC = 0;
 
 	Try{
 		result = incfsz(&code);
@@ -291,8 +271,6 @@ void test_incfsz_should_return_0_if_not_skip_for_ACCESS_bank_address_more_than_0
 				
 	//Initialize FSR[0xFA0] to 0x0F
 	FSR[code.operand1+(0xF00)] = 0x0F;
-	//Initialize PC to 0
-	PC = 0;
 
 	Try{
 		result = incfsz(&code);
@@ -319,8 +297,6 @@ void test_incfsz_should_return_1_if_skip_for_GPR_bank_and_store_in_WREG(){
 	//Initialize FSR[0x545] to 0xFF
 	FSR[BSR] = 0x5;
 	FSR[code.operand1+(FSR[BSR]<<8)] = 0xFF;
-	//Initialize PC to 0
-	PC = 0;
 
 	Try{
 		result = incfsz(&code);
@@ -347,8 +323,6 @@ void test_incfsz_should_return_0_if_not_skip_for_GPR_bank_and_store_in_WREG(){
 	//Initialize FSR[0x4C5] to 0x0F
 	FSR[BSR] = 0x4;
 	FSR[code.operand1+(FSR[BSR]<<8)] = 0x0F;
-	//Initialize PC to 0
-	PC = 0;
 
 	Try{
 		result = incfsz(&code);
@@ -359,6 +333,58 @@ void test_incfsz_should_return_0_if_not_skip_for_GPR_bank_and_store_in_WREG(){
 	
 	TEST_ASSERT_EQUAL_HEX8(0x10, FSR[WREG]);
 	TEST_ASSERT_EQUAL(0, result);
+		
+}
+
+void test_incfsz_should_return_1_if_skip_for_ACCESS_bank_if_operand1_is_0x350(){
+	CEXCEPTION_T catchError;
+	int result;
+	//Test fixture
+	Bytecode code = {.instruction = {.mnemonic = INCFSZ, .name = "incfsz"},
+					 .operand1 = 0x350, 
+					 .operand2 = 1, 
+					 .operand3 = 0					
+					};
+				
+	//Initialize FSR[0x050] to 0xFF, should increment FSR[0x50] instead of FSR[0x350]
+	FSR[0x50] = 0xFF;
+
+	Try{
+		result = incfsz(&code);
+	}Catch(catchError){
+		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
+	};
+
+	
+	TEST_ASSERT_EQUAL_HEX8(0x00, FSR[0x050]);
+	TEST_ASSERT_EQUAL(1, result);
+		
+}
+
+void test_incfsz_should_return_1_if_skip_for_GPR_bank_if_operand1_is_0x550(){
+	CEXCEPTION_T catchError;
+	int result;
+	//Test fixture
+	Bytecode code = {.instruction = {.mnemonic = INCFSZ, .name = "incfsz"},
+					 .operand1 = 0x550, 
+					 .operand2 = 1, 
+					 .operand3 = 1					
+					};
+				
+	//Initialize FSR[0x250] to 0xFF
+	FSR[BSR] = 0x02;
+	FSR[0x250] = 0xFF;
+	//Should increment FSR[0x250] instead of FSR[0x550]
+
+	Try{
+		result = incfsz(&code);
+	}Catch(catchError){
+		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
+	};
+
+	
+	TEST_ASSERT_EQUAL_HEX8(0x00, FSR[0x250]);
+	TEST_ASSERT_EQUAL(1, result);
 		
 }
 
