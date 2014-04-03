@@ -12,7 +12,6 @@
 #define FSR2L	0xFD9
 
 extern unsigned char FSR[];
-extern int PC;
 
 typedef enum 	{
 					ACCESS = -5,
@@ -31,6 +30,7 @@ typedef enum 	{
 void execute(Bytecode *code);
 int operandCheckFor2Args(Bytecode *code);
 int operandCheckFor3Args(Bytecode *code);
+void isValidOperand1(Bytecode *code);
 void isValidOperand2(Bytecode *code);
 void isValidOperand3(Bytecode *code);
 

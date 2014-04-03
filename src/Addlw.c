@@ -4,7 +4,7 @@
 #include "Execute.h"
 #include "Addlw.h"
 
-void addlw(Bytecode *code){
+int addlw(Bytecode *code){
 	int negFlag, operand1;
 	unsigned char wreg;
 	
@@ -14,7 +14,7 @@ void addlw(Bytecode *code){
 	if(code->operand2 != -1 || code->operand3 != -1){
 		Throw(ERR_INVALID_OPERAND);
 	}
-	if(code->operand1 < 0x00 || (code->operand1 > 0xFF && code->operand1 < 0xF80) || code->operand1 > 0xFFF){
+	if(code->operand1 < 0x00 || code->operand1 > 0xFF){
 		Throw(ERR_INVALID_OPERAND);
 	}
 	else{
@@ -37,7 +37,7 @@ void addlw(Bytecode *code){
 			FSR[STATUS] = (FSR[STATUS] | 0x10);	
 	}
 	
-	PC += 2;
+	return 0;
 }
 
 int overflowCheck(unsigned char wreg, int operand1){

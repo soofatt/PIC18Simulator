@@ -4,7 +4,7 @@
 #include "Execute.h"
 #include "Lfsr.h"
 
-void lfsr(Bytecode *code){
+int lfsr(Bytecode *code){
 	int highByte, lowByte;
 
 	if(code->operand1 < 0 || code->operand1 > 2){
@@ -40,5 +40,5 @@ void lfsr(Bytecode *code){
 			break;
 	}
 	
-	PC += 2;
+	return 0;
 }
