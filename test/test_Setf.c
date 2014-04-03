@@ -8,8 +8,9 @@ void setUp(){}
 void tearDown(){}
 
 void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_ACCESS_bank_for_less_than_0x80(){
-	//Test fixture
 	CEXCEPTION_T catchError;
+	int result;
+	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = SETF, .name = "setf"},
 					 .operand1 = 0x031, 
 					 .operand2 = 0, 
@@ -20,18 +21,20 @@ void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_ACCESS_bank_fo
 	FSR[code.operand1] = 0xC2;
 	
 	Try{
-		setf(&code);
+		result = setf(&code);
 	}Catch(catchError){
 		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
 	};
 
 	TEST_ASSERT_EQUAL_HEX8(0xFF, FSR[0x031]);
+	TEST_ASSERT_EQUAL(0, result);
 	
 }
 
 void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_ACCESS_bank_for_more_than_0x80(){
-	//Test fixture
 	CEXCEPTION_T catchError;
+	int result;
+	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = SETF, .name = "setf"},
 					 .operand1 = 0x096, 
 					 .operand2 = 0, 
@@ -42,18 +45,20 @@ void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_ACCESS_bank_fo
 	FSR[code.operand1+(0xF00)] = 0xC2;
 
 	Try{
-		setf(&code);
+		result = setf(&code);
 	}Catch(catchError){
 		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
 	};
 
 	TEST_ASSERT_EQUAL_HEX8(0xFF, FSR[0xF96]);
+	TEST_ASSERT_EQUAL(0, result);
 	
 }
 
 void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_default_op2_bank_for_less_than_0x80(){
-	//Test fixture
 	CEXCEPTION_T catchError;
+	int result;
+	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = SETF, .name = "setf"},
 					 .operand1 = 0x035, 
 					 .operand2 = -1, 
@@ -64,18 +69,20 @@ void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_default_op2_ba
 	FSR[code.operand1] = 0xA2;
 	
 	Try{
-		setf(&code);
+		result = setf(&code);
 	}Catch(catchError){
 		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
 	};
 
 	TEST_ASSERT_EQUAL_HEX8(0xFF, FSR[0x035]);
+	TEST_ASSERT_EQUAL(0, result);
 	
 }
 
 void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_GPR_bank(){
-	//Test fixture
 	CEXCEPTION_T catchError;
+	int result;
+	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = SETF, .name = "setf"},
 					 .operand1 = 0x031, 
 					 .operand2 = 1, 
@@ -87,7 +94,7 @@ void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_GPR_bank(){
 	FSR[code.operand1+(FSR[BSR]<<8)] = 0x12;
 	
 	Try{
-		setf(&code);
+		result = setf(&code);
 	}Catch(catchError){
 		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
 	};
@@ -95,11 +102,13 @@ void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_GPR_bank(){
 	//printf("File register: %#x\n", FSR[0xC31]);
 	
 	TEST_ASSERT_EQUAL_HEX8(0xFF, FSR[0xC31]);
+	TEST_ASSERT_EQUAL(0, result);
 	
 }
 
 void test_setf_should_throw_exception_if_invalid_operand1(){
 	CEXCEPTION_T catchError;
+	int result;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = SETF, .name = "setf"},
 					 .operand1 = -1, 
@@ -108,7 +117,7 @@ void test_setf_should_throw_exception_if_invalid_operand1(){
 					};
 	
 	Try{
-		setf(&code);
+		result = setf(&code);
 	} Catch(catchError){
 		TEST_ASSERT_EQUAL(ERR_INVALID_OPERAND, catchError);
 	}
@@ -116,6 +125,7 @@ void test_setf_should_throw_exception_if_invalid_operand1(){
 
 void test_setf_should_throw_exception_if_invalid_operand2(){
 	CEXCEPTION_T catchError;
+	int result;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = SETF, .name = "setf"},
 					 .operand1 = 0x30, 
@@ -124,7 +134,7 @@ void test_setf_should_throw_exception_if_invalid_operand2(){
 					};
 	
 	Try{
-		setf(&code);
+		result = setf(&code);
 	} Catch(catchError){
 		TEST_ASSERT_EQUAL(ERR_INVALID_OPERAND, catchError);
 	}
@@ -132,6 +142,7 @@ void test_setf_should_throw_exception_if_invalid_operand2(){
 
 void test_setf_should_throw_exception_if_invalid_operand3(){
 	CEXCEPTION_T catchError;
+	int result;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = SETF, .name = "setf"},
 					 .operand1 = 0x30, 
@@ -140,7 +151,7 @@ void test_setf_should_throw_exception_if_invalid_operand3(){
 					};
 	
 	Try{
-		setf(&code);
+		result = setf(&code);
 	} Catch(catchError){
 		TEST_ASSERT_EQUAL(ERR_INVALID_OPERAND, catchError);
 	}
@@ -148,6 +159,7 @@ void test_setf_should_throw_exception_if_invalid_operand3(){
 
 void test_setf_should_throw_exception_if_invalid_BSR_value(){
 	CEXCEPTION_T catchError;
+	int result;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = SETF, .name = "setf"},
 					 .operand1 = 0x30, 
@@ -158,7 +170,7 @@ void test_setf_should_throw_exception_if_invalid_BSR_value(){
 	FSR[BSR] = 0x35;
 	
 	Try{
-		setf(&code);
+		result = setf(&code);
 	} Catch(catchError){
 		TEST_ASSERT_EQUAL(ERR_INVALID_BSR_VALUE, catchError);
 	}
@@ -166,6 +178,7 @@ void test_setf_should_throw_exception_if_invalid_BSR_value(){
 
 void test_setf_should_throw_exception_if_invalid_address(){
 	CEXCEPTION_T catchError;
+	int result;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = SETF, .name = "setf"},
 					 .operand1 = WREG, 
@@ -177,7 +190,7 @@ void test_setf_should_throw_exception_if_invalid_address(){
 	FSR[code.operand1+(FSR[BSR]<<8)] = 0x12;
 	
 	Try{
-		setf(&code);
+		result = setf(&code);
 	} Catch(catchError){
 		TEST_ASSERT_EQUAL(ERR_INVALID_ADDRESS, catchError);
 	}

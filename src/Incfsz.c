@@ -4,7 +4,7 @@
 #include "Execute.h"
 #include "Incfsz.h"
 
-void incfsz(Bytecode *code){
+int incfsz(Bytecode *code){
 	int validOp = 0;
 	int regAddrCheck = 0;
 	
@@ -17,9 +17,9 @@ void incfsz(Bytecode *code){
 			FSR[code->operand1]++;
 			
 			if(FSR[code->operand1] == 0)
-				PC += 4;
+				return 1;
 			else
-				PC += 2;
+				return 0;
 				
 			break;
 			
@@ -27,9 +27,9 @@ void incfsz(Bytecode *code){
 			FSR[code->operand1+(0xF00)]++;
 
 			if(FSR[code->operand1+(0xF00)] == 0)
-				PC += 4;
+				return 1;
 			else
-				PC += 2;
+				return 0;
 				
 			break;
 			
@@ -42,9 +42,9 @@ void incfsz(Bytecode *code){
 				FSR[code->operand1+(FSR[BSR]<<8)]++;
 
 				if(FSR[code->operand1+(FSR[BSR]<<8)] == 0)
-					PC += 4;
+					return 1;
 				else
-					PC += 2;	
+					return 0;	
 			}
 			
 			break;
@@ -53,9 +53,9 @@ void incfsz(Bytecode *code){
 			FSR[WREG] = ++FSR[code->operand1];
 			
 			if(FSR[code->operand1] == 0)
-				PC += 4;
+				return 1;
 			else
-				PC += 2;
+				return 0;
 				
 			break;
 			
@@ -63,9 +63,9 @@ void incfsz(Bytecode *code){
 			FSR[WREG] = ++FSR[code->operand1+(0xF00)];
 			
 			if(FSR[code->operand1+(0xF00)] == 0)
-				PC += 4;
+				return 1;
 			else
-				PC += 2;
+				return 0;
 				
 			break;
 			
@@ -79,9 +79,9 @@ void incfsz(Bytecode *code){
 				FSR[WREG] = ++FSR[code->operand1+(FSR[BSR]<<8)];
 
 				if(FSR[code->operand1+(FSR[BSR]<<8)] == 0)
-					PC += 4;
+					return 1;
 				else
-					PC += 2;	
+					return 0;	
 			}
 			break;
 			

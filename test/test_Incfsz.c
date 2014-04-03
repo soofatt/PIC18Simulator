@@ -7,8 +7,9 @@
 void setUp(){}
 void tearDown(){}
 
-void test_incfsz_should_increment_PC_by_4_if_skip_for_ACCESS_bank_address_less_than_0x80(){
+void test_incfsz_should_return_1_if_skip_for_ACCESS_bank_address_less_than_0x80(){
 	CEXCEPTION_T catchError;
+	int result;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = INCFSZ, .name = "incfsz"},
 					 .operand1 = 0x040, 
@@ -22,19 +23,20 @@ void test_incfsz_should_increment_PC_by_4_if_skip_for_ACCESS_bank_address_less_t
 	PC = 0;
 
 	Try{
-		incfsz(&code);
+		result = incfsz(&code);
 	}Catch(catchError){
 		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
 	};
 
 	
 	TEST_ASSERT_EQUAL_HEX8(0x00, FSR[0x040]);
-	TEST_ASSERT_EQUAL(4, PC);
+	TEST_ASSERT_EQUAL(1, result);
 		
 }
 
-void test_incfsz_should_increment_PC_by_2_if_not_skip_for_ACCESS_bank_address_less_than_0x80(){
+void test_incfsz_should_return_0_if_not_skip_for_ACCESS_bank_address_less_than_0x80(){
 	CEXCEPTION_T catchError;
+	int result;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = INCFSZ, .name = "incfsz"},
 					 .operand1 = 0x030, 
@@ -48,19 +50,20 @@ void test_incfsz_should_increment_PC_by_2_if_not_skip_for_ACCESS_bank_address_le
 	PC = 0;
 
 	Try{
-		incfsz(&code);
+		result = incfsz(&code);
 	}Catch(catchError){
 		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
 	};
 
 	
 	TEST_ASSERT_EQUAL_HEX8(0x10, FSR[0x030]);
-	TEST_ASSERT_EQUAL(2, PC);
+	TEST_ASSERT_EQUAL(0, result);
 		
 }
 
-void test_incfsz_should_increment_PC_by_4_if_skip_for_ACCESS_bank_address_more_than_0x80(){
+void test_incfsz_should_return_1_if_skip_for_ACCESS_bank_address_more_than_0x80(){
 	CEXCEPTION_T catchError;
+	int result;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = INCFSZ, .name = "incfsz"},
 					 .operand1 = 0x0D0, 
@@ -74,19 +77,20 @@ void test_incfsz_should_increment_PC_by_4_if_skip_for_ACCESS_bank_address_more_t
 	PC = 0;
 
 	Try{
-		incfsz(&code);
+		result = incfsz(&code);
 	}Catch(catchError){
 		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
 	};
 
 	
 	TEST_ASSERT_EQUAL_HEX8(0x00, FSR[0xFD0]);
-	TEST_ASSERT_EQUAL(4, PC);
+	TEST_ASSERT_EQUAL(1, result);
 		
 }
 
-void test_incfsz_should_increment_PC_by_2_if_not_skip_for_ACCESS_bank_address_more_than_0x80(){
+void test_incfsz_should_return_0_if_not_skip_for_ACCESS_bank_address_more_than_0x80(){
 	CEXCEPTION_T catchError;
+	int result;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = INCFSZ, .name = "incfsz"},
 					 .operand1 = 0x0A0, 
@@ -100,19 +104,20 @@ void test_incfsz_should_increment_PC_by_2_if_not_skip_for_ACCESS_bank_address_mo
 	PC = 0;
 
 	Try{
-		incfsz(&code);
+		result = incfsz(&code);
 	}Catch(catchError){
 		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
 	};
 
 	
 	TEST_ASSERT_EQUAL_HEX8(0x10, FSR[0xFA0]);
-	TEST_ASSERT_EQUAL(2, PC);
+	TEST_ASSERT_EQUAL(0, result);
 		
 }
 
-void test_incfsz_should_increment_PC_by_4_if_skip_for_default_op3_bank_address_less_than_0x80(){
+void test_incfsz_should_return_1_if_skip_for_default_op3_bank_address_less_than_0x80(){
 	CEXCEPTION_T catchError;
+	int result;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = INCFSZ, .name = "incfsz"},
 					 .operand1 = 0x020, 
@@ -126,19 +131,20 @@ void test_incfsz_should_increment_PC_by_4_if_skip_for_default_op3_bank_address_l
 	PC = 0;
 
 	Try{
-		incfsz(&code);
+		result = incfsz(&code);
 	}Catch(catchError){
 		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
 	};
 
 	
 	TEST_ASSERT_EQUAL_HEX8(0x00, FSR[0x020]);
-	TEST_ASSERT_EQUAL(4, PC);
+	TEST_ASSERT_EQUAL(1, result);
 		
 }
 
-void test_incfsz_should_increment_PC_by_4_if_skip_for_GPR_bank(){
+void test_incfsz_should_return_1_if_skip_for_GPR_bank(){
 	CEXCEPTION_T catchError;
+	int result;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = INCFSZ, .name = "incfsz"},
 					 .operand1 = 0x045, 
@@ -153,19 +159,20 @@ void test_incfsz_should_increment_PC_by_4_if_skip_for_GPR_bank(){
 	PC = 0;
 
 	Try{
-		incfsz(&code);
+		result = incfsz(&code);
 	}Catch(catchError){
 		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
 	};
 
 	
 	TEST_ASSERT_EQUAL_HEX8(0x00, FSR[0x345]);
-	TEST_ASSERT_EQUAL(4, PC);
+	TEST_ASSERT_EQUAL(1, result);
 		
 }
 
-void test_incfsz_should_increment_PC_by_2_if_not_skip_for_GPR_bank(){
+void test_incfsz_should_return_0_if_not_skip_for_GPR_bank(){
 	CEXCEPTION_T catchError;
+	int result;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = INCFSZ, .name = "incfsz"},
 					 .operand1 = 0x0C5, 
@@ -180,19 +187,20 @@ void test_incfsz_should_increment_PC_by_2_if_not_skip_for_GPR_bank(){
 	PC = 0;
 
 	Try{
-		incfsz(&code);
+		result = incfsz(&code);
 	}Catch(catchError){
 		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
 	};
 
 	
 	TEST_ASSERT_EQUAL_HEX8(0x10, FSR[0x2C5]);
-	TEST_ASSERT_EQUAL(2, PC);
+	TEST_ASSERT_EQUAL(0, result);
 		
 }
 
-void test_incfsz_should_increment_PC_by_4_if_skip_for_ACCESS_bank_address_less_than_0x80_and_store_in_WREG(){
+void test_incfsz_should_return_1_if_skip_for_ACCESS_bank_address_less_than_0x80_and_store_in_WREG(){
 	CEXCEPTION_T catchError;
+	int result;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = INCFSZ, .name = "incfsz"},
 					 .operand1 = 0x040, 
@@ -206,19 +214,20 @@ void test_incfsz_should_increment_PC_by_4_if_skip_for_ACCESS_bank_address_less_t
 	PC = 0;
 
 	Try{
-		incfsz(&code);
+		result = incfsz(&code);
 	}Catch(catchError){
 		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
 	};
 
 	
 	TEST_ASSERT_EQUAL_HEX8(0x00, FSR[WREG]);
-	TEST_ASSERT_EQUAL(4, PC);
+	TEST_ASSERT_EQUAL(1, result);
 		
 }
 
-void test_incfsz_should_increment_PC_by_2_if_not_skip_for_ACCESS_bank_address_less_than_0x80_and_store_in_WREG(){
+void test_incfsz_should_return_0_if_not_skip_for_ACCESS_bank_address_less_than_0x80_and_store_in_WREG(){
 	CEXCEPTION_T catchError;
+	int result;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = INCFSZ, .name = "incfsz"},
 					 .operand1 = 0x030, 
@@ -232,19 +241,20 @@ void test_incfsz_should_increment_PC_by_2_if_not_skip_for_ACCESS_bank_address_le
 	PC = 0;
 
 	Try{
-		incfsz(&code);
+		result = incfsz(&code);
 	}Catch(catchError){
 		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
 	};
 
 	
 	TEST_ASSERT_EQUAL_HEX8(0x10, FSR[WREG]);
-	TEST_ASSERT_EQUAL(2, PC);
+	TEST_ASSERT_EQUAL(0, result);
 		
 }
 
-void test_incfsz_should_increment_PC_by_4_if_skip_for_ACCESS_bank_address_more_than_0x80_and_store_in_WREG(){
+void test_incfsz_should_return_1_if_skip_for_ACCESS_bank_address_more_than_0x80_and_store_in_WREG(){
 	CEXCEPTION_T catchError;
+	int result;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = INCFSZ, .name = "incfsz"},
 					 .operand1 = 0x0D0, 
@@ -258,19 +268,20 @@ void test_incfsz_should_increment_PC_by_4_if_skip_for_ACCESS_bank_address_more_t
 	PC = 0;
 
 	Try{
-		incfsz(&code);
+		result = incfsz(&code);
 	}Catch(catchError){
 		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
 	};
 
 	
 	TEST_ASSERT_EQUAL_HEX8(0x00, FSR[WREG]);
-	TEST_ASSERT_EQUAL(4, PC);
+	TEST_ASSERT_EQUAL(1, result);
 		
 }
 
-void test_incfsz_should_increment_PC_by_2_if_not_skip_for_ACCESS_bank_address_more_than_0x80_and_store_in_WREG(){
+void test_incfsz_should_return_0_if_not_skip_for_ACCESS_bank_address_more_than_0x80_and_store_in_WREG(){
 	CEXCEPTION_T catchError;
+	int result;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = INCFSZ, .name = "incfsz"},
 					 .operand1 = 0x0A0, 
@@ -284,19 +295,20 @@ void test_incfsz_should_increment_PC_by_2_if_not_skip_for_ACCESS_bank_address_mo
 	PC = 0;
 
 	Try{
-		incfsz(&code);
+		result = incfsz(&code);
 	}Catch(catchError){
 		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
 	};
 
 	
 	TEST_ASSERT_EQUAL_HEX8(0x10, FSR[WREG]);
-	TEST_ASSERT_EQUAL(2, PC);
+	TEST_ASSERT_EQUAL(0, result);
 		
 }
 
-void test_incfsz_should_increment_PC_by_4_if_skip_for_GPR_bank_and_store_in_WREG(){
+void test_incfsz_should_return_1_if_skip_for_GPR_bank_and_store_in_WREG(){
 	CEXCEPTION_T catchError;
+	int result;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = INCFSZ, .name = "incfsz"},
 					 .operand1 = 0x045, 
@@ -311,19 +323,20 @@ void test_incfsz_should_increment_PC_by_4_if_skip_for_GPR_bank_and_store_in_WREG
 	PC = 0;
 
 	Try{
-		incfsz(&code);
+		result = incfsz(&code);
 	}Catch(catchError){
 		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
 	};
 
 	
 	TEST_ASSERT_EQUAL_HEX8(0x00, FSR[WREG]);
-	TEST_ASSERT_EQUAL(4, PC);
+	TEST_ASSERT_EQUAL(1, result);
 		
 }
 
-void test_incfsz_should_increment_PC_by_2_if_not_skip_for_GPR_bank_and_store_in_WREG(){
+void test_incfsz_should_return_0_if_not_skip_for_GPR_bank_and_store_in_WREG(){
 	CEXCEPTION_T catchError;
+	int result;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = INCFSZ, .name = "incfsz"},
 					 .operand1 = 0x0C5, 
@@ -338,19 +351,20 @@ void test_incfsz_should_increment_PC_by_2_if_not_skip_for_GPR_bank_and_store_in_
 	PC = 0;
 
 	Try{
-		incfsz(&code);
+		result = incfsz(&code);
 	}Catch(catchError){
 		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
 	};
 
 	
 	TEST_ASSERT_EQUAL_HEX8(0x10, FSR[WREG]);
-	TEST_ASSERT_EQUAL(2, PC);
+	TEST_ASSERT_EQUAL(0, result);
 		
 }
 
 void test_incfsz_should_throw_exception_if_invalid_operand1(){
 	CEXCEPTION_T catchError;
+	int result;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = INCFSZ, .name = "incfsz"},
 					 .operand1 = -1, 
@@ -359,7 +373,7 @@ void test_incfsz_should_throw_exception_if_invalid_operand1(){
 					};
 
 	Try{
-		incfsz(&code);
+		result = incfsz(&code);
 	} Catch(catchError){
 		TEST_ASSERT_EQUAL(ERR_INVALID_OPERAND, catchError);
 	}
@@ -368,6 +382,7 @@ void test_incfsz_should_throw_exception_if_invalid_operand1(){
 
 void test_incfsz_should_throw_exception_if_invalid_operand2(){
 	CEXCEPTION_T catchError;
+	int result;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = INCFSZ, .name = "incfsz"},
 					 .operand1 = 0x10, 
@@ -376,7 +391,7 @@ void test_incfsz_should_throw_exception_if_invalid_operand2(){
 					};
 
 	Try{
-		incfsz(&code);
+		result = incfsz(&code);
 	} Catch(catchError){
 		TEST_ASSERT_EQUAL(ERR_INVALID_OPERAND, catchError);
 	}
@@ -385,6 +400,7 @@ void test_incfsz_should_throw_exception_if_invalid_operand2(){
 
 void test_incfsz_should_throw_exception_if_invalid_operand3(){
 	CEXCEPTION_T catchError;
+	int result;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = INCFSZ, .name = "incfsz"},
 					 .operand1 = 0x10, 
@@ -393,7 +409,7 @@ void test_incfsz_should_throw_exception_if_invalid_operand3(){
 					};
 
 	Try{
-		incfsz(&code);
+		result = incfsz(&code);
 	} Catch(catchError){
 		TEST_ASSERT_EQUAL(ERR_INVALID_OPERAND, catchError);
 	}
@@ -402,6 +418,7 @@ void test_incfsz_should_throw_exception_if_invalid_operand3(){
 
 void test_incfsz_should_throw_exception_if_operand2_is_F_operand3_is_W(){
 	CEXCEPTION_T catchError;
+	int result;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = INCFSZ, .name = "incfsz"},
 					 .operand1 = 0x10, 
@@ -410,7 +427,7 @@ void test_incfsz_should_throw_exception_if_operand2_is_F_operand3_is_W(){
 					};
 
 	Try{
-		incfsz(&code);
+		result = incfsz(&code);
 	} Catch(catchError){
 		TEST_ASSERT_EQUAL(ERR_INVALID_OPERAND, catchError);
 	}
@@ -419,6 +436,7 @@ void test_incfsz_should_throw_exception_if_operand2_is_F_operand3_is_W(){
 
 void test_incfsz_should_throw_exception_if_operand2_is_F_operand3_is_F(){
 	CEXCEPTION_T catchError;
+	int result;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = INCFSZ, .name = "incfsz"},
 					 .operand1 = 0x10, 
@@ -427,7 +445,7 @@ void test_incfsz_should_throw_exception_if_operand2_is_F_operand3_is_F(){
 					};
 
 	Try{
-		incfsz(&code);
+		result = incfsz(&code);
 	} Catch(catchError){
 		TEST_ASSERT_EQUAL(ERR_INVALID_OPERAND, catchError);
 	}
@@ -436,6 +454,7 @@ void test_incfsz_should_throw_exception_if_operand2_is_F_operand3_is_F(){
 
 void test_incfsz_should_throw_exception_if_operand2_is_ACCESS_operand3_is_BANKED(){
 	CEXCEPTION_T catchError;
+	int result;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = INCFSZ, .name = "incfsz"},
 					 .operand1 = 0x10, 
@@ -444,7 +463,7 @@ void test_incfsz_should_throw_exception_if_operand2_is_ACCESS_operand3_is_BANKED
 					};
 
 	Try{
-		incfsz(&code);
+		result = incfsz(&code);
 	} Catch(catchError){
 		TEST_ASSERT_EQUAL(ERR_INVALID_OPERAND, catchError);
 	}
@@ -453,6 +472,7 @@ void test_incfsz_should_throw_exception_if_operand2_is_ACCESS_operand3_is_BANKED
 
 void test_incfsz_should_throw_exception_if_operand2_is_ACCESS_operand3_is_ACCESS(){
 	CEXCEPTION_T catchError;
+	int result;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = INCFSZ, .name = "incfsz"},
 					 .operand1 = 0x10, 
@@ -461,7 +481,7 @@ void test_incfsz_should_throw_exception_if_operand2_is_ACCESS_operand3_is_ACCESS
 					};
 
 	Try{
-		incfsz(&code);
+		result = incfsz(&code);
 	} Catch(catchError){
 		TEST_ASSERT_EQUAL(ERR_INVALID_OPERAND, catchError);
 	}
@@ -470,6 +490,7 @@ void test_incfsz_should_throw_exception_if_operand2_is_ACCESS_operand3_is_ACCESS
 
 void test_incfsz_should_throw_exception_if_invalid_BSR_value(){
 	CEXCEPTION_T catchError;
+	int result;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = INCFSZ, .name = "incfsz"},
 					 .operand1 = 0x10, 
@@ -480,7 +501,7 @@ void test_incfsz_should_throw_exception_if_invalid_BSR_value(){
 	FSR[BSR] = 0x5A;
 	
 	Try{
-		incfsz(&code);
+		result = incfsz(&code);
 	} Catch(catchError){
 		TEST_ASSERT_EQUAL(ERR_INVALID_BSR_VALUE, catchError);
 	}
@@ -489,6 +510,7 @@ void test_incfsz_should_throw_exception_if_invalid_BSR_value(){
 
 void test_incfsz_should_throw_exception_if_invalid_address(){
 	CEXCEPTION_T catchError;
+	int result;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = INCFSZ, .name = "incfsz"},
 					 .operand1 = WREG, 
@@ -499,7 +521,7 @@ void test_incfsz_should_throw_exception_if_invalid_address(){
 	FSR[BSR] = 0x5;
 	
 	Try{
-		incfsz(&code);
+		result = incfsz(&code);
 	} Catch(catchError){
 		TEST_ASSERT_EQUAL(ERR_INVALID_ADDRESS, catchError);
 	}

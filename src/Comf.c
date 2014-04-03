@@ -4,7 +4,7 @@
 #include "Execute.h"
 #include "Comf.h"
 
-void comf(Bytecode *code){
+int comf(Bytecode *code){
 	int validOp = 0;
 	int regAddrCheck = 0;
 	unsigned char negFlag;
@@ -23,7 +23,7 @@ void comf(Bytecode *code){
 			if(negFlag == 1)
 				FSR[STATUS] = (FSR[STATUS] | 0x10);
 				
-			PC += 2;
+			return 0;
 			break;
 			
 		case 2 : //Using ACCESS bank (address is >0x80)
@@ -35,7 +35,7 @@ void comf(Bytecode *code){
 			if(negFlag == 1)
 				FSR[STATUS] = (FSR[STATUS] | 0x10);
 				
-			PC += 2;
+			return 0;
 			break;
 			
 		case 3 : //Using BANKED bank
@@ -53,7 +53,7 @@ void comf(Bytecode *code){
 					FSR[STATUS] = (FSR[STATUS] | 0x10);
 
 			}
-			PC += 2;
+			return 0;
 			break;
 			
 		case 4 : //Store in WREG using ACCESS bank (address is <0x80)
@@ -65,7 +65,7 @@ void comf(Bytecode *code){
 			if(negFlag == 1)
 				FSR[STATUS] = (FSR[STATUS] | 0x10);
 				
-			PC += 2;
+			return 0;
 			break;
 			
 		case 5 : //Store in WREG using ACCESS bank (address is >0x80)
@@ -77,7 +77,7 @@ void comf(Bytecode *code){
 			if(negFlag == 1)
 				FSR[STATUS] = (FSR[STATUS] | 0x10);
 
-			PC += 2;
+			return 0;
 			break;
 			
 		case 6 : //Store in WREG using BANKED bank
@@ -95,7 +95,7 @@ void comf(Bytecode *code){
 					FSR[STATUS] = (FSR[STATUS] | 0x10);
 
 			}
-			PC += 2;
+			return 0;
 			break;
 			
 		default: //if not within cases, throw error

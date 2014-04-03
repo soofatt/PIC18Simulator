@@ -4,7 +4,7 @@
 #include "Execute.h"
 #include "Setf.h"
 
-void setf(Bytecode *code){
+int setf(Bytecode *code){
 	int validOp = 0;
 	int regAddrCheck = 0;
 	
@@ -15,11 +15,13 @@ void setf(Bytecode *code){
 	switch(validOp){
 		case 1 : //Store in ACCESS (address is <0x80)
 			FSR[code->operand1] = 0xFF;
-			PC += 2;
+			
+			return 0;
 			break;
 		case 2 : //Store in ACCESS (address is >0x80)
 			FSR[code->operand1+(0xF00)] = 0xFF;
-			PC += 2;
+			
+			return 0;
 			break;
 		case 3 : //Store in BANKED
 			if(FSR[BSR] < 0x00 || FSR[BSR] > 0x0F){
@@ -29,7 +31,8 @@ void setf(Bytecode *code){
 			else{
 				FSR[code->operand1+(FSR[BSR]<<8)] = 0xFF;
 			}
-			PC += 2;
+			
+			return 0;
 			break;
 		default: //if not within cases, throw error
 			Throw(ERR_INVALID_OPERAND);
