@@ -34,5 +34,7 @@ int operandCheckFor3Args(Bytecode *code);
 void isValidOperand1(Bytecode *code);
 void isValidOperand2(Bytecode *code);
 void isValidOperand3(Bytecode *code);
+void setOperandsFor2Args(Bytecode *code);
+void setOperandsFor3Args(Bytecode *code);
 
 #endif	// __EXECUTE_H__

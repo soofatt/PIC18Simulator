@@ -234,6 +234,187 @@ void test_comf_should_complement_value_in_a_file_register_in_GPR_bank_if_operand
 	
 }
 
+void test_comf_should_complement_value_in_a_file_register_in_GPR_bank_if_operand1_is_WREG_and_operand3_is_1(){
+	CEXCEPTION_T catchError;
+	int result;
+	//Test fixture
+	Bytecode code = {.instruction = {.mnemonic = COMF, .name = "comf"},
+					 .operand1 = WREG, 
+					 .operand2 = 1, 
+					 .operand3 = 1					
+					};
+				
+	//Initialize FSR[0x3E8] to 0xA5
+	FSR[BSR] = 0x03;
+	FSR[0x3E8] = 0xA5;
+	//Should complement FSR[0x3E8] instead of WREG
+
+	Try{
+		result = comf(&code);
+	}Catch(catchError){
+		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
+	};
+
+	
+	TEST_ASSERT_EQUAL_HEX8(0x5A, FSR[0x3E8]);
+	TEST_ASSERT_EQUAL(0, result);
+	
+}
+
+void test_comf_should_complement_value_in_a_file_register_in_WREG_if_operand1_is_WREG_and_operand3_is_0(){
+	CEXCEPTION_T catchError;
+	int result;
+	//Test fixture
+	Bytecode code = {.instruction = {.mnemonic = COMF, .name = "comf"},
+					 .operand1 = WREG, 
+					 .operand2 = 1, 
+					 .operand3 = 0					
+					};
+				
+	//Initialize FSR[WREG] to 0xA5
+	FSR[WREG] = 0xA5;
+	//Should complement WREG
+
+	Try{
+		result = comf(&code);
+	}Catch(catchError){
+		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
+	};
+
+	
+	TEST_ASSERT_EQUAL_HEX8(0x5A, FSR[WREG]);
+	TEST_ASSERT_EQUAL(0, result);
+	
+}
+
+void test_comf_should_complement_value_in_a_file_register_in_WREG_if_operand1_is_WREG_and_operands_are_default(){
+	CEXCEPTION_T catchError;
+	int result;
+	//Test fixture
+	Bytecode code = {.instruction = {.mnemonic = COMF, .name = "comf"},
+					 .operand1 = WREG, 
+					 .operand2 = -1, 
+					 .operand3 = -1					
+					};
+				
+	//Initialize FSR[WREG] to 0xA5
+	FSR[WREG] = 0xA5;
+	//Should complement WREG
+
+	Try{
+		result = comf(&code);
+	}Catch(catchError){
+		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
+	};
+
+	
+	TEST_ASSERT_EQUAL_HEX8(0x5A, FSR[WREG]);
+	TEST_ASSERT_EQUAL(0, result);
+	
+}
+
+void test_comf_should_complement_value_in_a_file_register_in_GPR_bank_if_operand1_is_0x095_and_default_operand2_and_operand3(){
+	CEXCEPTION_T catchError;
+	int result;
+	//Test fixture
+	Bytecode code = {.instruction = {.mnemonic = COMF, .name = "comf"},
+					 .operand1 = 0x095, 
+					 .operand2 = -1, 
+					 .operand3 = -1					
+					};
+				
+	//Initialize FSR[0x495] to 0xA5
+	FSR[BSR] = 0x04;
+	FSR[0x495] = 0xA5;
+
+	Try{
+		result = comf(&code);
+	}Catch(catchError){
+		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
+	};
+
+	
+	TEST_ASSERT_EQUAL_HEX8(0x5A, FSR[0x495]);
+	TEST_ASSERT_EQUAL(0, result);
+	
+}
+
+void test_comf_should_complement_value_in_a_file_register_in_ACCESS_bank_if_operand2_is_ACCESS_operand1_less_than_0x80(){
+	CEXCEPTION_T catchError;
+	int result;
+	//Test fixture
+	Bytecode code = {.instruction = {.mnemonic = COMF, .name = "comf"},
+					 .operand1 = 0x045, 
+					 .operand2 = ACCESS, 
+					 .operand3 = -1					
+					};
+				
+	//Initialize FSR[0x045] to 0xA5
+	FSR[0x045] = 0xA5;
+
+	Try{
+		result = comf(&code);
+	}Catch(catchError){
+		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
+	};
+
+	
+	TEST_ASSERT_EQUAL_HEX8(0x5A, FSR[0x045]);
+	TEST_ASSERT_EQUAL(0, result);
+	
+}
+
+void test_comf_should_complement_value_in_a_file_register_in_ACCESS_bank_if_operand2_is_ACCESS_operand1_more_than_0x7f(){
+	CEXCEPTION_T catchError;
+	int result;
+	//Test fixture
+	Bytecode code = {.instruction = {.mnemonic = COMF, .name = "comf"},
+					 .operand1 = 0x095, 
+					 .operand2 = ACCESS, 
+					 .operand3 = -1					
+					};
+				
+	//Initialize FSR[0xF95] to 0xA5
+	FSR[0xF95] = 0xA5;
+
+	Try{
+		result = comf(&code);
+	}Catch(catchError){
+		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
+	};
+
+	
+	TEST_ASSERT_EQUAL_HEX8(0x5A, FSR[0xF95]);
+	TEST_ASSERT_EQUAL(0, result);
+	
+}
+
+void test_comf_should_complement_value_in_a_file_register_in_GPR_bank_if_operand2_is_BANKED(){
+	CEXCEPTION_T catchError;
+	int result;
+	//Test fixture
+	Bytecode code = {.instruction = {.mnemonic = COMF, .name = "comf"},
+					 .operand1 = 0x065, 
+					 .operand2 = BANKED, 
+					 .operand3 = -1					
+					};
+				
+	//Initialize FSR[0x565] to 0xA5
+	FSR[BSR] = 0x05;
+	FSR[0x565] = 0xA5;
+
+	Try{
+		result = comf(&code);
+	}Catch(catchError){
+		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
+	};
+
+	
+	TEST_ASSERT_EQUAL_HEX8(0x5A, FSR[0x565]);
+	TEST_ASSERT_EQUAL(0, result);
+	
+}
+
 void test_comf_should_set_zero_flag_if_result_is_zero(){
 	CEXCEPTION_T catchError;
 	int result;
@@ -302,7 +483,7 @@ void test_comf_should_clear_negative_and_zero_flag(){
 				
 	//Initialize FSR[0x015] to 0x80
 	FSR[code.operand1] = 0x80;
-	//Initialize FSR[STATUS] to 0x02
+	//Initialize FSR[STATUS] to 0x14
 	FSR[STATUS] = 0x14;
 
 	Try{
@@ -313,7 +494,7 @@ void test_comf_should_clear_negative_and_zero_flag(){
 
 	
 	TEST_ASSERT_EQUAL_HEX8(0x7F, FSR[0x015]);
-	TEST_ASSERT_EQUAL_HEX8(0x00, FSR[STATUS]); // 0x12 = 0001 0010, negative flag and DC flag(initial) set
+	TEST_ASSERT_EQUAL_HEX8(0x00, FSR[STATUS]);
 	TEST_ASSERT_EQUAL(0, result);
 	
 }
@@ -331,7 +512,7 @@ void test_comf_should_throw_exception_if_invalid_operand1(){
 	Try{
 		result = comf(&code);
 	} Catch(catchError){
-		TEST_ASSERT_EQUAL(ERR_INVALID_OPERAND, catchError);
+		TEST_ASSERT_EQUAL(ERR_INVALID_ADDRESS, catchError);
 	}
 }
 
@@ -340,7 +521,7 @@ void test_comf_should_throw_exception_if_invalid_operand2(){
 	int result;
 	//Test fixture
 	Bytecode code = {{.mnemonic = COMF, .name = "comf"},
-							.operand1 = -1, 
+							.operand1 = 0x01, 
 							.operand2 =	-8, 
 							.operand3 = 0					
 					};			
@@ -357,7 +538,7 @@ void test_comf_should_throw_exception_if_invalid_operand3(){
 	int result;
 	//Test fixture
 	Bytecode code = {{.mnemonic = COMF, .name = "comf"},
-							.operand1 = -1, 
+							.operand1 = 0x01, 
 							.operand2 =	1, 
 							.operand3 = 5					
 					};			
@@ -453,25 +634,5 @@ void test_comf_should_throw_exception_if_invalid_BSR_value(){
 		result = comf(&code);
 	} Catch(catchError){
 		TEST_ASSERT_EQUAL(ERR_INVALID_BSR_VALUE, catchError);
-	}
-}
-
-void test_comf_should_throw_exception_if_invalid_address(){
-	CEXCEPTION_T catchError;
-	int result;
-	//Test fixture
-	Bytecode code = {{.mnemonic = COMF, .name = "comf"},
-							.operand1 = WREG, 
-							.operand2 = 1, 
-							.operand3 = BANKED				
-					};	
-	//Initialize FSR[BSR] to 0xA					
-	FSR[BSR] = 0xA;
-	FSR[code.operand1+(FSR[BSR]<<8)] = 0x11;
-	
-	Try{
-		result = comf(&code);
-	} Catch(catchError){
-		TEST_ASSERT_EQUAL(ERR_INVALID_ADDRESS, catchError);
 	}
 }

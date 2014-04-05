@@ -401,7 +401,7 @@ void test_incfsz_should_throw_exception_if_invalid_operand1(){
 	Try{
 		result = incfsz(&code);
 	} Catch(catchError){
-		TEST_ASSERT_EQUAL(ERR_INVALID_OPERAND, catchError);
+		TEST_ASSERT_EQUAL(ERR_INVALID_ADDRESS, catchError);
 	}
 		
 }
@@ -530,26 +530,6 @@ void test_incfsz_should_throw_exception_if_invalid_BSR_value(){
 		result = incfsz(&code);
 	} Catch(catchError){
 		TEST_ASSERT_EQUAL(ERR_INVALID_BSR_VALUE, catchError);
-	}
-		
-}
-
-void test_incfsz_should_throw_exception_if_invalid_address(){
-	CEXCEPTION_T catchError;
-	int result;
-	//Test fixture
-	Bytecode code = {.instruction = {.mnemonic = INCFSZ, .name = "incfsz"},
-					 .operand1 = WREG, 
-					 .operand2 = F, 
-					 .operand3 = BANKED			
-					};
-	//Initialize FSR[BSR] to 0x5	
-	FSR[BSR] = 0x5;
-	
-	Try{
-		result = incfsz(&code);
-	} Catch(catchError){
-		TEST_ASSERT_EQUAL(ERR_INVALID_ADDRESS, catchError);
 	}
 		
 }
