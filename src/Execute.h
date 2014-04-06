@@ -10,8 +10,13 @@
 #define FSR1L	0xFE1
 #define FSR2H	0xFDA
 #define FSR2L	0xFD9
+#define STKPTR	0xFFC
+#define TOSU	0xFFF
+#define TOSH	0xFFE
+#define TOSL	0xFFD
 
 extern unsigned char FSR[];
+extern unsigned int PIC18Stack[];
 
 typedef enum 	{
 					ACCESS = -5,
@@ -24,7 +29,8 @@ typedef enum 	{
 					ERR_NO_ERROR,
 					ERR_INVALID_OPERAND,
 					ERR_INVALID_BSR_VALUE,
-					ERR_INVALID_ADDRESS
+					ERR_INVALID_ADDRESS,
+					ERR_INVALID_STK_PTR
 				} ExceptionError;
 
 void execute(Bytecode *code);
@@ -33,5 +39,7 @@ int operandCheckFor3Args(Bytecode *code);
 void isValidOperand1(Bytecode *code);
 void isValidOperand2(Bytecode *code);
 void isValidOperand3(Bytecode *code);
+void setOperandsFor2Args(Bytecode *code);
+void setOperandsFor3Args(Bytecode *code);
 
 #endif	// __EXECUTE_H__

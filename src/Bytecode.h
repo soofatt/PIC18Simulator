@@ -4,7 +4,7 @@
 typedef enum 	{
 					BC,
 					BNOV,
-					GOTO,
+					GOTO_,
 					RETLW
 				} Mnemonic;
 				
