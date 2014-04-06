@@ -7,7 +7,7 @@
 void setUp(){}
 void tearDown(){}
 
-void test_goto__should_return_1(){
+void test_goto__should_return_operand1(){
 	CEXCEPTION_T catchError;
 	int result;
 	//Test fixture
@@ -23,15 +23,33 @@ void test_goto__should_return_1(){
 		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
 	}
 
-	TEST_ASSERT_EQUAL(1, result);
+	TEST_ASSERT_EQUAL_HEX8(0x1C2D3, result);
 }
 
-void test_goto__should_throw_exception_if_invalid_operand1(){
+void test_goto__should_throw_exception_if_invalid_operand1_given_operand1_is_negative_456(){
 	CEXCEPTION_T catchError;
 	int result;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = GOTO_, .name = "goto_"},
 					 .operand1 = -456, 
+					 .operand2 = -1, 
+					 .operand3 = -1					
+					};
+	
+	Try{
+		result = goto_(&code);
+	} Catch(catchError){
+		TEST_ASSERT_EQUAL(ERR_INVALID_OPERAND, catchError);
+	}
+
+}
+
+void test_goto__should_throw_exception_if_invalid_operand1_given_operand1_is_2000000(){
+	CEXCEPTION_T catchError;
+	int result;
+	//Test fixture
+	Bytecode code = {.instruction = {.mnemonic = GOTO_, .name = "goto_"},
+					 .operand1 = 2000000, 
 					 .operand2 = -1, 
 					 .operand3 = -1					
 					};

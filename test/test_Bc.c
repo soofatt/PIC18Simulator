@@ -7,14 +7,15 @@
 void setUp(){}
 void tearDown(){}
 
-void test_bc_should_return_1_if_branching(){
+void test_bc_should_return_operand1_if_branching(){
 	CEXCEPTION_T catchError;
 	int result;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = BC, .name = "bc"},
 					 .operand1 = 0x22, 
 					 .operand2 = -1, 
-					 .operand3 = -1					
+					 .operand3 = -1,
+					 .absoluteAddress = 0
 					};
 				
 	//Initialize FSR[STATUS] to 0x11
@@ -27,18 +28,19 @@ void test_bc_should_return_1_if_branching(){
 	}
 	
 	TEST_ASSERT_EQUAL_HEX8(0x11, FSR[STATUS]);
-	TEST_ASSERT_EQUAL(1, result);
+	TEST_ASSERT_EQUAL_HEX8(0x22, result);
 
 }
 
-void test_bc_should_return_0_if_not_branching(){
+void test_bc_should_return_absoluteaddress_plus_1_if_not_branching(){
 	CEXCEPTION_T catchError;
 	int result;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = BC, .name = "bc"},
 					 .operand1 = 0xA5, 
 					 .operand2 = -1, 
-					 .operand3 = -1					
+					 .operand3 = -1,
+					 .absoluteAddress = 5
 					};
 				
 	//Initialize FSR[STATUS] to 0x00
@@ -51,7 +53,7 @@ void test_bc_should_return_0_if_not_branching(){
 	}
 	
 	TEST_ASSERT_EQUAL_HEX8(0x00, FSR[STATUS]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(6, result);
 
 }
 

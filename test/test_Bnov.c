@@ -7,14 +7,15 @@
 void setUp(){}
 void tearDown(){}
 
-void test_bnov_should_return_1_if_branching(){
+void test_bnov_should_return_operand1_if_branching(){
 	CEXCEPTION_T catchError;
 	int result;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = BNOV, .name = "bnov"},
 					 .operand1 = 0xC3, 
 					 .operand2 = -1, 
-					 .operand3 = -1					
+					 .operand3 = -1,
+					 .absoluteAddress = 0
 					};
 				
 	//Initialize FSR[STATUS] to 0x10
@@ -27,17 +28,18 @@ void test_bnov_should_return_1_if_branching(){
 	}
 	
 	TEST_ASSERT_EQUAL_HEX8(0x10, FSR[STATUS]);
-	TEST_ASSERT_EQUAL(1, result);
+	TEST_ASSERT_EQUAL_HEX8(0xC3, result);
 }
 
-void test_bnov_should_return_0_if_not_branching(){
+void test_bnov_should_return_absoluteaddress_plus_1_if_not_branching(){
 	CEXCEPTION_T catchError;
 	int result;
 	//Test fixture
 	Bytecode code = {.instruction = {.mnemonic = BNOV, .name = "bnov"},
 					 .operand1 = 0x35, 
 					 .operand2 = -1, 
-					 .operand3 = -1					
+					 .operand3 = -1,
+					 .absoluteAddress = 7
 					};
 				
 	//Initialize FSR[STATUS] to 0x18
@@ -50,7 +52,7 @@ void test_bnov_should_return_0_if_not_branching(){
 	}
 	
 	TEST_ASSERT_EQUAL_HEX8(0x18, FSR[STATUS]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(8, result);
 }
 
 void test_bnov_should_throw_exception_if_invalid_operand1(){

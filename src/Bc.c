@@ -6,7 +6,7 @@
 
 int bc(Bytecode *code){
 	char operand1;
-	int statusFlag;
+	int carryFlag;
 
 	operand1 = code->operand1;
 	
@@ -17,10 +17,10 @@ int bc(Bytecode *code){
 		Throw(ERR_INVALID_OPERAND);
 	}
 	
-	statusFlag = (FSR[STATUS] & 0x01);
+	carryFlag = (FSR[STATUS] & 0x01);
 	
-	if(statusFlag == 1)
-		return 1;
+	if(carryFlag == 1)
+		return code->operand1;
 	else
-		return 0;
+		return code->absoluteAddress+1;
 }

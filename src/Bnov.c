@@ -20,7 +20,7 @@ int bnov(Bytecode *code){
 	overflowFlag = ((FSR[STATUS] & 0x08)>>3);
 	
 	if(overflowFlag == 0)
-		return 1;
+		return code->operand1;
 	else
-		return 0;
+		return code->absoluteAddress+1;
 }

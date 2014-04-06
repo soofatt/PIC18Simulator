@@ -14,9 +14,14 @@
 #define TOSU	0xFFF
 #define TOSH	0xFFE
 #define TOSL	0xFFD
+#define TBLPTRU	0xFF8
+#define TBLPTRH	0xFF7
+#define TBLPTRL	0xFF6
+#define TABLAT	0xFF5
 
 extern unsigned char FSR[];
 extern unsigned int PIC18Stack[];
+unsigned extern char TABLE[];
 
 typedef enum 	{
 					ACCESS = -5,
@@ -30,7 +35,8 @@ typedef enum 	{
 					ERR_INVALID_OPERAND,
 					ERR_INVALID_BSR_VALUE,
 					ERR_INVALID_ADDRESS,
-					ERR_INVALID_STK_PTR
+					ERR_INVALID_STK_PTR,
+					ERR_INVALID_TBL_PTR
 				} ExceptionError;
 
 void execute(Bytecode *code);
