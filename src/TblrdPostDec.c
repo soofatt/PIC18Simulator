@@ -1,9 +1,32 @@
+/**
+ * Author: Soo Fatt
+ * Email: soofatt93@gmail.com
+ * Date: 29/3/2014
+ * Project name: PIC18 simulator
+ * Programme: Microelectronics with Embedded Technology
+ * Institution: Tunku Abdul Rahman University College
+ * Copyright: GPLv3
+ */
 #include <stdio.h>
 #include "CException.h"
 #include "Bytecode.h"
 #include "Execute.h"
 #include "TblrdPostDec.h"
 
+/**
+ *Read a data from the TABLE and decrement the TBLPTR
+ *
+ *Input:
+ *	code :	The bytecode
+ *
+ *Return:
+ *	code->absoluteAddress+1
+ *
+ *Throw:
+ *	ERR_INVALID_OPERAND exception if encounter invalid operand
+ *	ERR_INVALID_TBL_PTR exception if encounter TBLPTR value out of range
+ *
+ */
 int tblrd_postdec(Bytecode *code){
 	int tablePtr = 0;
 	int tblptrUpper, tblptrHigh, tblptrLow;
