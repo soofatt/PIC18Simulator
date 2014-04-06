@@ -1,9 +1,31 @@
+/**
+ * Author: Soo Fatt
+ * Email: soofatt93@gmail.com
+ * Date: 29/3/2014
+ * Project name: PIC18 simulator
+ * Programme: Microelectronics with Embedded Technology
+ * Institution: Tunku Abdul Rahman University College
+ * Copyright: GPLv3
+ */
 #include <stdio.h>
 #include "CException.h"
 #include "Bytecode.h"
 #include "Execute.h"
 #include "Addlw.h"
 
+/**
+ *Add a literal to the WREG
+ *
+ *Input:
+ *	code :	The bytecode
+ *
+ *Return:
+ *	code->absoluteAddress+1
+ *
+ *Throw:
+ *	ERR_INVALID_OPERAND exception if encounter invalid operand
+ *
+ */
 int addlw(Bytecode *code){
 	int negFlag, operand1;
 	unsigned char wreg;
@@ -50,6 +72,18 @@ int addlw(Bytecode *code){
 	return code->absoluteAddress+1;
 }
 
+/**
+ *To check for overflow
+ *
+ *Input:
+ *	wreg :	The value of the WREG before addition
+ *	operand1 : The value of operand1 before addition
+ *
+ *Return:
+ *	1 if overflow occured
+ *	0 if overflow did not occur
+ *
+ */
 int overflowCheck(unsigned char wreg, int operand1){
 	int carryOut_D7, carry_D6toD7;
 	
@@ -69,6 +103,17 @@ int overflowCheck(unsigned char wreg, int operand1){
 	
 }
 
+/**
+ *To check for digital carry
+ *
+ *Input:
+ *	wreg :	The value of the WREG before addition
+ *	operand1 : The value of operand1 before addition
+ *
+ *Return:
+ *	carry_D3toD4(0 if digital carry did not occur, 1 if occured)
+ *
+ */
 int digitalCarryCheck(unsigned char wreg, int operand1){
 	int carry_D3toD4;
 	
@@ -80,6 +125,17 @@ int digitalCarryCheck(unsigned char wreg, int operand1){
 	return carry_D3toD4;
 }
 
+/**
+ *To check for carry
+ *
+ *Input:
+ *	wreg :	The value of the WREG before addition
+ *	operand1 : The value of operand1 before addition
+ *
+ *Return:
+ *	carryOut_D7(0 if carry did not occur, 1 if occured)
+ *
+ */
 int carryCheck(unsigned char wreg, int operand1){
 	int carryOut_D7;
 	
