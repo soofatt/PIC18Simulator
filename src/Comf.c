@@ -1,9 +1,32 @@
+/**
+ * Author: Soo Fatt
+ * Email: soofatt93@gmail.com
+ * Date: 29/3/2014
+ * Project name: PIC18 simulator
+ * Programme: Microelectronics with Embedded Technology
+ * Institution: Tunku Abdul Rahman University College
+ * Copyright: GPLv3
+ */
 #include <stdio.h>
 #include "CException.h"
 #include "Bytecode.h"
 #include "Execute.h"
 #include "Comf.h"
 
+/**
+ *Complement the value inside a file register
+ *
+ *Input:
+ *	code :	The bytecode
+ *
+ *Return:
+ *	code->absoluteAddress+1
+ *
+ *Throw:
+ *	ERR_INVALID_OPERAND exception if encounter invalid operand
+ *	ERR_INVALID_BSR_VALUE exception if encounter invalid BSR value
+ *
+ */
 int comf(Bytecode *code){
 	int validOp = 0;
 	unsigned char negFlag;

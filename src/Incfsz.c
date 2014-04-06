@@ -1,9 +1,34 @@
+/**
+ * Author: Soo Fatt
+ * Email: soofatt93@gmail.com
+ * Date: 29/3/2014
+ * Project name: PIC18 simulator
+ * Programme: Microelectronics with Embedded Technology
+ * Institution: Tunku Abdul Rahman University College
+ * Copyright: GPLv3
+ */
 #include <stdio.h>
 #include "CException.h"
 #include "Bytecode.h"
 #include "Execute.h"
 #include "Incfsz.h"
 
+/**
+ *Increment the value inside a file register by 1 and skip the next instruction
+ *if zero flag is set
+ *
+ *Input:
+ *	code :	The bytecode
+ *
+ *Return:
+ *	code->absoluteAddress+1 if no skip
+ *	code->absoluteAddress+2 if skip
+ *
+ *Throw:
+ *	ERR_INVALID_OPERAND exception if encounter invalid operand
+ *	ERR_INVALID_BSR_VALUE exception if encounter invalid BSR value
+ *
+ */
 int incfsz(Bytecode *code){
 	int validOp = 0;
 	
