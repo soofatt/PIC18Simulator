@@ -14,22 +14,26 @@ void test_addlw_should_add_a_hex_value_to_WREG(){
 	Bytecode code = {.instruction = {.mnemonic = ADDLW, .name = "addlw"},
 					 .operand1 = 0x20, 
 					 .operand2 = -1, 
-					 .operand3 = -1					
+					 .operand3 = -1,
+					 .absoluteAddress = 0
 					};
 				
 	//Initialize WREG to 0x00 and add 0x20 to WREG
 	FSR[WREG] = 0x00;
 	
 	Try{
-		addlw(&code);
+		result = addlw(&code);
 	} Catch(catchError){
 		TEST_FAIL_MESSAGE("Exception thrown when it should not have.");
 	}
 	
 	TEST_ASSERT_EQUAL_HEX8(0x20, FSR[WREG]);
+	TEST_ASSERT_EQUAL(1, result);
 	
 	//Initialize WREG to 0xFF and add 0x20 to WREG
 	FSR[WREG] = 0xFF;
+	
+	result = 0;
 
 	Try{
 		result = addlw(&code);
@@ -38,7 +42,7 @@ void test_addlw_should_add_a_hex_value_to_WREG(){
 	}
 	
 	TEST_ASSERT_EQUAL_HEX8(0x1F, FSR[WREG]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 	
 }
 
@@ -49,7 +53,8 @@ void test_addlw_should_set_carry_flag(){
 	Bytecode code = {.instruction = {.mnemonic = ADDLW, .name = "addlw"},
 					 .operand1 = 0xC2, 
 					 .operand2 = -1, 
-					 .operand3 = -1					
+					 .operand3 = -1,
+					 .absoluteAddress = 0					
 					};
 				
 	//Initialize WREG to 0x40 and add 0xC2 to WREG
@@ -65,7 +70,7 @@ void test_addlw_should_set_carry_flag(){
 	
 	TEST_ASSERT_EQUAL_HEX8(0x02, FSR[WREG]);
 	TEST_ASSERT_EQUAL_HEX8(0x01, FSR[STATUS]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 }
 
 void test_addlw_should_set_digital_carry_flag(){
@@ -75,7 +80,8 @@ void test_addlw_should_set_digital_carry_flag(){
 	Bytecode code = {.instruction = {.mnemonic = ADDLW, .name = "addlw"},
 					 .operand1 = 0x08, 
 					 .operand2 = -1, 
-					 .operand3 = -1					
+					 .operand3 = -1,
+					 .absoluteAddress = 0					
 					};
 				
 	//Initialize WREG to 0x08 and add 0x08 to WREG
@@ -91,7 +97,7 @@ void test_addlw_should_set_digital_carry_flag(){
 	
 	TEST_ASSERT_EQUAL_HEX8(0x10, FSR[WREG]);
 	TEST_ASSERT_EQUAL_HEX8(0x02, FSR[STATUS]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 }
 
 void test_addlw_should_set_zero_flag(){
@@ -101,7 +107,8 @@ void test_addlw_should_set_zero_flag(){
 	Bytecode code = {.instruction = {.mnemonic = ADDLW, .name = "addlw"},
 					 .operand1 = 0x00, 
 					 .operand2 = -1, 
-					 .operand3 = -1					
+					 .operand3 = -1,
+					 .absoluteAddress = 0					
 					};
 				
 	//Initialize WREG to 0x00 and add 0x00 to WREG
@@ -117,7 +124,7 @@ void test_addlw_should_set_zero_flag(){
 	
 	TEST_ASSERT_EQUAL_HEX8(0x00, FSR[WREG]);
 	TEST_ASSERT_EQUAL_HEX8(0x04, FSR[STATUS]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 }
 
 void test_addlw_should_set_overflow_flag(){
@@ -127,7 +134,8 @@ void test_addlw_should_set_overflow_flag(){
 	Bytecode code = {.instruction = {.mnemonic = ADDLW, .name = "addlw"},
 					 .operand1 = 0x40, 
 					 .operand2 = -1, 
-					 .operand3 = -1					
+					 .operand3 = -1,
+					 .absoluteAddress = 0					
 					};
 				
 	//Initialize WREG to 0x60 and add 0x40 to WREG
@@ -143,13 +151,14 @@ void test_addlw_should_set_overflow_flag(){
 	
 	TEST_ASSERT_EQUAL_HEX8(0xA0, FSR[WREG]);
 	TEST_ASSERT_EQUAL_HEX8(0x18, FSR[STATUS]); // 0x18 = 0001 1000, negative flag is also set
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 	
 	//Test fixture 2
 	Bytecode code2 = {.instruction = {.mnemonic = ADDLW, .name = "addlw"},
 					 .operand1 = 0x84, 
 					 .operand2 = -1, 
-					 .operand3 = -1					
+					 .operand3 = -1,
+					 .absoluteAddress = 0					
 					};
 				
 	//Initialize WREG to 0x80 and add 0x84 to WREG
@@ -165,7 +174,7 @@ void test_addlw_should_set_overflow_flag(){
 	
 	TEST_ASSERT_EQUAL_HEX8(0x04, FSR[WREG]);
 	TEST_ASSERT_EQUAL_HEX8(0x09, FSR[STATUS]); // 0x09 = 0000 1001, carry flag is also set
-	TEST_ASSERT_EQUAL(0, result2);
+	TEST_ASSERT_EQUAL(1, result2);
 }
 
 void test_addlw_should_set_negative_flag(){
@@ -175,7 +184,8 @@ void test_addlw_should_set_negative_flag(){
 	Bytecode code = {.instruction = {.mnemonic = ADDLW, .name = "addlw"},
 					 .operand1 = 0x62, 
 					 .operand2 = -1, 
-					 .operand3 = -1					
+					 .operand3 = -1,
+					 .absoluteAddress = 0					
 					};
 				
 	//Initialize WREG to 0x80 and add 0x62 to WREG
@@ -191,7 +201,7 @@ void test_addlw_should_set_negative_flag(){
 	
 	TEST_ASSERT_EQUAL_HEX8(0xE2, FSR[WREG]);
 	TEST_ASSERT_EQUAL_HEX8(0x10, FSR[STATUS]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 }
 
 void test_addlw_should_clear_all_status_flag(){
@@ -201,7 +211,8 @@ void test_addlw_should_clear_all_status_flag(){
 	Bytecode code = {.instruction = {.mnemonic = ADDLW, .name = "addlw"},
 					 .operand1 = 0x01, 
 					 .operand2 = -1, 
-					 .operand3 = -1					
+					 .operand3 = -1,
+					 .absoluteAddress = 0					
 					};
 				
 	//Initialize WREG to 0x00 and add 0x01 to WREG
@@ -217,7 +228,7 @@ void test_addlw_should_clear_all_status_flag(){
 	
 	TEST_ASSERT_EQUAL_HEX8(0x01, FSR[WREG]);
 	TEST_ASSERT_EQUAL_HEX8(0x00, FSR[STATUS]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 }
 
 void test_addlw_should_throw_exception_if_invalid_operand1(){

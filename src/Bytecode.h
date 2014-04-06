@@ -2,8 +2,16 @@
 #define	__BYTECODE_H__
 
 typedef enum 	{
+					COMF,
+					SETF,
+					INCFSZ,
 					ADDLW,
-					LFSR
+					LFSR,
+					BC,
+					BNOV,
+					GOTO_,
+					RETLW,
+					TBLRD_POSTDEC
 				} Mnemonic;
 				
 typedef struct {

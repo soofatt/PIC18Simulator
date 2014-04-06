@@ -14,7 +14,8 @@ void test_lfsr_should_load_0x4A2_into_LFSR0(){
 	Bytecode code = {.instruction = {.mnemonic = LFSR, .name = "lfsr"},
 					 .operand1 = 0, 
 					 .operand2 = 0x4A2, 
-					 .operand3 = -1					
+					 .operand3 = -1,
+					 .absoluteAddress = 0
 					};
 				
 	//Initialize FSR[FSR0L] and FSR[FSR0H] to 0
@@ -29,7 +30,7 @@ void test_lfsr_should_load_0x4A2_into_LFSR0(){
 	
 	TEST_ASSERT_EQUAL_HEX8(0x04, FSR[FSR0H]);
 	TEST_ASSERT_EQUAL_HEX8(0xA2, FSR[FSR0L]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 	
 }
 
@@ -40,7 +41,8 @@ void test_lfsr_should_load_0xC38_into_LFSR1(){
 	Bytecode code = {.instruction = {.mnemonic = LFSR, .name = "lfsr"},
 					 .operand1 = 1, 
 					 .operand2 = 0xC38, 
-					 .operand3 = -1					
+					 .operand3 = -1,
+					 .absoluteAddress = 0					
 					};
 				
 	//Initialize FSR[FSR1L] and FSR[FSR1H] to 0
@@ -55,7 +57,7 @@ void test_lfsr_should_load_0xC38_into_LFSR1(){
 	
 	TEST_ASSERT_EQUAL_HEX8(0x0C, FSR[FSR1H]);
 	TEST_ASSERT_EQUAL_HEX8(0x38, FSR[FSR1L]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 	
 }
 
@@ -66,7 +68,8 @@ void test_lfsr_should_load_0x4DA_into_LFSR2(){
 	Bytecode code = {.instruction = {.mnemonic = LFSR, .name = "lfsr"},
 					 .operand1 = 2, 
 					 .operand2 = 0x4DA, 
-					 .operand3 = -1					
+					 .operand3 = -1,
+					 .absoluteAddress = 0					
 					};
 				
 	//Initialize FSR[FSR2L] and FSR[FSR2H] to 0
@@ -81,7 +84,7 @@ void test_lfsr_should_load_0x4DA_into_LFSR2(){
 	
 	TEST_ASSERT_EQUAL_HEX8(0x04, FSR[FSR2H]);
 	TEST_ASSERT_EQUAL_HEX8(0xDA, FSR[FSR2L]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 	
 }
 

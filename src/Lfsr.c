@@ -40,5 +40,5 @@ int lfsr(Bytecode *code){
 			break;
 	}
 	
-	return 0;
+	return code->absoluteAddress+1;
 }

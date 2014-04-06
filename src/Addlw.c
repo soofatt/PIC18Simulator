@@ -47,7 +47,7 @@ int addlw(Bytecode *code){
 			FSR[STATUS] = (FSR[STATUS] & 0xEF);	
 	}
 	
-	return 0;
+	return code->absoluteAddress+1;
 }
 
 int overflowCheck(unsigned char wreg, int operand1){
