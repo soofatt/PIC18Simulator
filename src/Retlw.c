@@ -1,9 +1,32 @@
+/**
+ * Author: Soo Fatt
+ * Email: soofatt93@gmail.com
+ * Date: 29/3/2014
+ * Project name: PIC18 simulator
+ * Programme: Microelectronics with Embedded Technology
+ * Institution: Tunku Abdul Rahman University College
+ * Copyright: GPLv3
+ */
 #include <stdio.h>
 #include "CException.h"
 #include "Bytecode.h"
 #include "Execute.h"
 #include "Retlw.h"
 
+/**
+ *Return from call and add a literal to the WREG
+ *
+ *Input:
+ *	code :	The bytecode
+ *
+ *Return:
+ *	returnAddr : The address taken from top of stack
+ *
+ *Throw:
+ *	ERR_INVALID_OPERAND exception if encounter invalid operand
+ *	ERR_INVALID_STK_PTR exception if encounter STKPTR is out of range
+ *
+ */
 int retlw(Bytecode *code){
 	int returnAddr;
 	int tosUpper = 0, tosHigh = 0, tosLow = 0;
