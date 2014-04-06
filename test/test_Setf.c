@@ -14,7 +14,8 @@ void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_ACCESS_bank_fo
 	Bytecode code = {.instruction = {.mnemonic = SETF, .name = "setf"},
 					 .operand1 = 0x031, 
 					 .operand2 = 0, 
-					 .operand3 = -1					
+					 .operand3 = -1,
+					 .absoluteAddress = 0
 					};
 				
 	//Initialize FSR[0x031] to 0xC2
@@ -27,7 +28,7 @@ void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_ACCESS_bank_fo
 	};
 
 	TEST_ASSERT_EQUAL_HEX8(0xFF, FSR[0x031]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 	
 }
 
@@ -38,7 +39,8 @@ void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_ACCESS_bank_fo
 	Bytecode code = {.instruction = {.mnemonic = SETF, .name = "setf"},
 					 .operand1 = 0x096, 
 					 .operand2 = 0, 
-					 .operand3 = -1					
+					 .operand3 = -1,
+					 .absoluteAddress = 0					
 					};
 				
 	//Initialize FSR[0xF96] to 0xC2
@@ -51,7 +53,7 @@ void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_ACCESS_bank_fo
 	};
 
 	TEST_ASSERT_EQUAL_HEX8(0xFF, FSR[0xF96]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 	
 }
 
@@ -62,7 +64,8 @@ void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_GPR_bank_for_m
 	Bytecode code = {.instruction = {.mnemonic = SETF, .name = "setf"},
 					 .operand1 = 0x096, 
 					 .operand2 = -1, 
-					 .operand3 = -1					
+					 .operand3 = -1,
+					 .absoluteAddress = 0					
 					};
 				
 	//Initialize FSR[0x296] to 0xC2
@@ -76,7 +79,7 @@ void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_GPR_bank_for_m
 	};
 
 	TEST_ASSERT_EQUAL_HEX8(0xFF, FSR[0x296]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 	
 }
 
@@ -87,7 +90,8 @@ void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_default_op2_ba
 	Bytecode code = {.instruction = {.mnemonic = SETF, .name = "setf"},
 					 .operand1 = 0x035, 
 					 .operand2 = -1, 
-					 .operand3 = -1					
+					 .operand3 = -1,
+					 .absoluteAddress = 0					
 					};
 				
 	//Initialize FSR[0x035] to 0xA2
@@ -100,7 +104,7 @@ void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_default_op2_ba
 	};
 
 	TEST_ASSERT_EQUAL_HEX8(0xFF, FSR[0x035]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 	
 }
 
@@ -111,7 +115,8 @@ void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_GPR_bank(){
 	Bytecode code = {.instruction = {.mnemonic = SETF, .name = "setf"},
 					 .operand1 = 0x031, 
 					 .operand2 = 1, 
-					 .operand3 = -1					
+					 .operand3 = -1,
+					 .absoluteAddress = 0					
 					};
 				
 	//Initialize FSR[0xC31] to 0x12
@@ -127,7 +132,7 @@ void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_GPR_bank(){
 	//printf("File register: %#x\n", FSR[0xC31]);
 	
 	TEST_ASSERT_EQUAL_HEX8(0xFF, FSR[0xC31]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 	
 }
 
@@ -138,7 +143,8 @@ void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_ACCESS_bank_if
 	Bytecode code = {.instruction = {.mnemonic = SETF, .name = "setf"},
 					 .operand1 = 0x250, 
 					 .operand2 = ACCESS, 
-					 .operand3 = -1					
+					 .operand3 = -1,
+					 .absoluteAddress = 0					
 					};
 				
 	//Should set FSR[0x050] to 0xFF instead of FSR[0x250];
@@ -151,7 +157,7 @@ void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_ACCESS_bank_if
 	};
 	
 	TEST_ASSERT_EQUAL_HEX8(0xFF, FSR[0x050]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 	
 }
 
@@ -162,7 +168,8 @@ void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_GPR_bank_if_op
 	Bytecode code = {.instruction = {.mnemonic = SETF, .name = "setf"},
 					 .operand1 = 0x250, 
 					 .operand2 = BANKED, 
-					 .operand3 = -1					
+					 .operand3 = -1,
+					 .absoluteAddress = 0					
 					};
 	//Initialize FSR[0x350] to 0x20
 	FSR[BSR] = 0x3;
@@ -176,7 +183,7 @@ void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_GPR_bank_if_op
 	};
 	
 	TEST_ASSERT_EQUAL_HEX8(0xFF, FSR[0x350]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 	
 }
 
@@ -187,7 +194,8 @@ void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_GPR_bank_if_op
 	Bytecode code = {.instruction = {.mnemonic = SETF, .name = "setf"},
 					 .operand1 = 0x085, 
 					 .operand2 = -1, 
-					 .operand3 = -1					
+					 .operand3 = -1,
+					 .absoluteAddress = 0					
 					};
 	//Initialize FSR[0x385] to 0x20
 	FSR[BSR] = 0x3;
@@ -201,7 +209,7 @@ void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_GPR_bank_if_op
 	};
 	
 	TEST_ASSERT_EQUAL_HEX8(0xFF, FSR[0x385]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 	
 }
 
@@ -212,7 +220,8 @@ void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_GPR_bank_if_op
 	Bytecode code = {.instruction = {.mnemonic = SETF, .name = "setf"},
 					 .operand1 = WREG, 
 					 .operand2 = BANKED, 
-					 .operand3 = -1					
+					 .operand3 = -1,
+					 .absoluteAddress = 0					
 					};
 	//Initialize FSR[0x3E8] to 0x20
 	FSR[WREG] = 0x20;
@@ -226,7 +235,7 @@ void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_GPR_bank_if_op
 	};
 	
 	TEST_ASSERT_EQUAL_HEX8(0xFF, FSR[0x3E8]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 	
 }
 
@@ -237,7 +246,8 @@ void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_ACCESS_bank_if
 	Bytecode code = {.instruction = {.mnemonic = SETF, .name = "setf"},
 					 .operand1 = WREG, 
 					 .operand2 = ACCESS, 
-					 .operand3 = -1					
+					 .operand3 = -1,
+					 .absoluteAddress = 0					
 					};
 	//Initialize FSR[WREG] to 0x20
 	FSR[WREG] = 0x20;
@@ -250,7 +260,7 @@ void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_ACCESS_bank_if
 	};
 	
 	TEST_ASSERT_EQUAL_HEX8(0xFF, FSR[WREG]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 	
 }
 
@@ -261,7 +271,8 @@ void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_ACCESS_bank_if
 	Bytecode code = {.instruction = {.mnemonic = SETF, .name = "setf"},
 					 .operand1 = WREG, 
 					 .operand2 = -1, 
-					 .operand3 = -1					
+					 .operand3 = -1,
+					 .absoluteAddress = 0					
 					};
 	//Initialize FSR[WREG] to 0x20
 	FSR[WREG] = 0x20;
@@ -274,7 +285,7 @@ void test_setf_should_set_the_value_in_a_file_register_to_0xFF_in_ACCESS_bank_if
 	};
 	
 	TEST_ASSERT_EQUAL_HEX8(0xFF, FSR[WREG]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 	
 }
 

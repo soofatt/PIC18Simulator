@@ -24,7 +24,7 @@ int comf(Bytecode *code){
 			else
 				FSR[STATUS] = (FSR[STATUS] & 0xEF);	
 				
-			return 0;
+			return code->absoluteAddress+1;
 			break;
 			
 		case 2 : //Using BANKED bank
@@ -44,7 +44,7 @@ int comf(Bytecode *code){
 					FSR[STATUS] = (FSR[STATUS] & 0xEF);	
 
 			}
-			return 0;
+			return code->absoluteAddress+1;
 			break;
 			
 		case 3 : //Store in WREG using ACCESS bank
@@ -60,7 +60,7 @@ int comf(Bytecode *code){
 			else
 				FSR[STATUS] = (FSR[STATUS] & 0xEF);	
 				
-			return 0;
+			return code->absoluteAddress+1;
 			break;
 
 		case 4 : //Store in WREG using BANKED bank
@@ -80,7 +80,7 @@ int comf(Bytecode *code){
 					FSR[STATUS] = (FSR[STATUS] & 0xEF);	
 
 			}
-			return 0;
+			return code->absoluteAddress+1;
 			break;
 			
 		default: //if not within cases, throw error

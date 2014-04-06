@@ -14,9 +14,9 @@ int incfsz(Bytecode *code){
 			FSR[code->operand1]++;
 			
 			if(FSR[code->operand1] == 0)
-				return 1;
+				return code->absoluteAddress+2;
 			else
-				return 0;
+				return code->absoluteAddress+1;
 				
 			break;
 			
@@ -27,9 +27,9 @@ int incfsz(Bytecode *code){
 				FSR[code->operand1+(FSR[BSR]<<8)]++;
 
 				if(FSR[code->operand1+(FSR[BSR]<<8)] == 0)
-					return 1;
+					return code->absoluteAddress+2;
 				else
-					return 0;	
+					return code->absoluteAddress+1;	
 			}
 			
 			break;
@@ -38,9 +38,9 @@ int incfsz(Bytecode *code){
 			FSR[WREG] = ++FSR[code->operand1];
 			
 			if(FSR[code->operand1] == 0)
-				return 1;
+				return code->absoluteAddress+2;
 			else
-				return 0;
+				return code->absoluteAddress+1;
 				
 			break;
 			
@@ -52,9 +52,9 @@ int incfsz(Bytecode *code){
 				FSR[WREG] = ++FSR[code->operand1+(FSR[BSR]<<8)];
 
 				if(FSR[code->operand1+(FSR[BSR]<<8)] == 0)
-					return 1;
+					return code->absoluteAddress+2;
 				else
-					return 0;	
+					return code->absoluteAddress+1;	
 			}
 			break;
 			

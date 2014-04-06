@@ -4,7 +4,14 @@
 typedef enum 	{
 					COMF,
 					SETF,
-					INCFSZ
+					INCFSZ,
+					ADDLW,
+					LFSR,
+					BC,
+					BNOV,
+					GOTO_,
+					RETLW,
+					TBLRD_POSTDEC
 				} Mnemonic;
 				
 typedef struct {

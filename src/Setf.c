@@ -13,7 +13,7 @@ int setf(Bytecode *code){
 		case 1 : //Store in ACCESS
 			FSR[code->operand1] = 0xFF;
 			
-			return 0;
+			return code->absoluteAddress+1;
 			break;
 			
 		case 2 : //Store in BANKED
@@ -23,7 +23,7 @@ int setf(Bytecode *code){
 				FSR[code->operand1+(FSR[BSR]<<8)] = 0xFF;
 			}
 			
-			return 0;
+			return code->absoluteAddress+1;
 			break;
 			
 		default: //if not within cases, throw error

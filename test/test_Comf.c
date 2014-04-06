@@ -14,7 +14,8 @@ void test_comf_should_complement_value_in_a_file_register_in_ACCESS_bank_if_less
 	Bytecode code = {.instruction = {.mnemonic = COMF, .name = "comf"},
 					 .operand1 = 0x055, 
 					 .operand2 = 1, 
-					 .operand3 = 0					
+					 .operand3 = 0,
+					 .absoluteAddress = 0
 					};
 				
 	//Initialize FSR[0x055] to 0xA5
@@ -28,7 +29,7 @@ void test_comf_should_complement_value_in_a_file_register_in_ACCESS_bank_if_less
 
 	
 	TEST_ASSERT_EQUAL_HEX8(0x5A, FSR[0x055]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 	
 }
 
@@ -39,7 +40,8 @@ void test_comf_should_complement_value_in_a_file_register_in_ACCESS_bank_if_more
 	Bytecode code = {.instruction = {.mnemonic = COMF, .name = "comf"},
 					 .operand1 = 0x0D3, 
 					 .operand2 = 1, 
-					 .operand3 = 0					
+					 .operand3 = 0,
+					 .absoluteAddress = 0					
 					};
 				
 	//Initialize FSR[0xFD3] to 0xFA
@@ -52,7 +54,7 @@ void test_comf_should_complement_value_in_a_file_register_in_ACCESS_bank_if_more
 	};
 	
 	TEST_ASSERT_EQUAL_HEX8(0x05, FSR[0xFD3]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 	
 }
 
@@ -63,7 +65,8 @@ void test_comf_should_complement_value_in_a_file_register_in_default_op3_bank_if
 	Bytecode code = {.instruction = {.mnemonic = COMF, .name = "comf"},
 					 .operand1 = 0x015, 
 					 .operand2 = 1, 
-					 .operand3 = -1					
+					 .operand3 = -1,
+					 .absoluteAddress = 0					
 					};
 				
 	//Initialize FSR[0x015] to 0xA5
@@ -77,7 +80,7 @@ void test_comf_should_complement_value_in_a_file_register_in_default_op3_bank_if
 
 	
 	TEST_ASSERT_EQUAL_HEX8(0x5A, FSR[0x015]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 	
 }
 
@@ -88,7 +91,8 @@ void test_comf_should_complement_value_in_a_file_register_in_GPR_bank(){
 	Bytecode code = {.instruction = {.mnemonic = COMF, .name = "comf"},
 					 .operand1 = 0x035, 
 					 .operand2 = 1, 
-					 .operand3 = 1					
+					 .operand3 = 1,
+					 .absoluteAddress = 0					
 					};
 				
 	//Initialize FSR[0xA35] to 0xF0
@@ -104,7 +108,7 @@ void test_comf_should_complement_value_in_a_file_register_in_GPR_bank(){
 	//printf("File register: %#x\n", code.operand1+(FSR[BSR]<<8));
 	
 	TEST_ASSERT_EQUAL_HEX8(0x0F, FSR[0xA35]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 	
 }
 
@@ -112,10 +116,11 @@ void test_comf_should_complement_value_in_a_file_register_in_ACCESS_bank_and_sto
 	CEXCEPTION_T catchError;
 	int result;
 	//Test fixture
-	Bytecode code = {{.mnemonic = COMF, .name = "comf"},
-							.operand1 = 0x023, 
-							.operand2 =	0, 
-							.operand3 = 0					
+	Bytecode code = {.instruction = {.mnemonic = COMF, .name = "comf"},
+					 .operand1 = 0x023, 
+					 .operand2 = 0, 
+					 .operand3 = 0,
+					 .absoluteAddress = 0					
 					};
 				
 	//Initialize FSR[0x023] to 0xFF
@@ -128,7 +133,7 @@ void test_comf_should_complement_value_in_a_file_register_in_ACCESS_bank_and_sto
 	};
 	
 	TEST_ASSERT_EQUAL_HEX8(0x00, FSR[WREG]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 
 }
 
@@ -136,10 +141,11 @@ void test_comf_should_complement_value_in_a_file_register_in_ACCESS_bank_and_sto
 	CEXCEPTION_T catchError;
 	int result;
 	//Test fixture
-	Bytecode code = {{.mnemonic = COMF, .name = "comf"},
-							.operand1 = 0x0AC, 
-							.operand2 =	0, 
-							.operand3 = 0					
+	Bytecode code = {.instruction = {.mnemonic = COMF, .name = "comf"},
+					 .operand1 = 0x0AC, 
+					 .operand2 = 0, 
+					 .operand3 = 0,
+					 .absoluteAddress = 0					
 					};
 				
 	//Initialize FSR[0xFAC] to 0x88
@@ -152,7 +158,7 @@ void test_comf_should_complement_value_in_a_file_register_in_ACCESS_bank_and_sto
 	};
 	
 	TEST_ASSERT_EQUAL_HEX8(0x77, FSR[WREG]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 
 }
 
@@ -160,10 +166,11 @@ void test_comf_should_complement_value_in_a_file_register_in_GPR_bank_and_store_
 	CEXCEPTION_T catchError;
 	int result;
 	//Test fixture
-	Bytecode code = {{.mnemonic = COMF, .name = "comf"},
-							.operand1 = 0x04B, 
-							.operand2 =	0, 
-							.operand3 = 1					
+	Bytecode code = {.instruction = {.mnemonic = COMF, .name = "comf"},
+					 .operand1 = 0x04B, 
+					 .operand2 = 0, 
+					 .operand3 = 1,
+					 .absoluteAddress = 0					
 					};
 				
 	//Initialize FSR[0x24B] to 0x63
@@ -177,7 +184,7 @@ void test_comf_should_complement_value_in_a_file_register_in_GPR_bank_and_store_
 	};
 	
 	TEST_ASSERT_EQUAL_HEX8(0x9C, FSR[WREG]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 
 }
 
@@ -188,7 +195,8 @@ void test_comf_should_complement_value_in_a_file_register_in_ACCESS_bank_if_oper
 	Bytecode code = {.instruction = {.mnemonic = COMF, .name = "comf"},
 					 .operand1 = 0xC20, 
 					 .operand2 = 1, 
-					 .operand3 = 0					
+					 .operand3 = 0,
+					 .absoluteAddress = 0					
 					};
 				
 	//Initialize FSR[0x020] to 0xA5
@@ -203,7 +211,7 @@ void test_comf_should_complement_value_in_a_file_register_in_ACCESS_bank_if_oper
 
 	
 	TEST_ASSERT_EQUAL_HEX8(0x5A, FSR[0x020]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 	
 }
 
@@ -214,7 +222,8 @@ void test_comf_should_complement_value_in_a_file_register_in_GPR_bank_if_operand
 	Bytecode code = {.instruction = {.mnemonic = COMF, .name = "comf"},
 					 .operand1 = 0xD20, 
 					 .operand2 = 1, 
-					 .operand3 = 1					
+					 .operand3 = 1,
+					 .absoluteAddress = 0					
 					};
 				
 	//Initialize FSR[0xA20] to 0xA5
@@ -230,7 +239,7 @@ void test_comf_should_complement_value_in_a_file_register_in_GPR_bank_if_operand
 
 	
 	TEST_ASSERT_EQUAL_HEX8(0x5A, FSR[0xA20]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 	
 }
 
@@ -241,7 +250,8 @@ void test_comf_should_complement_value_in_a_file_register_in_GPR_bank_if_operand
 	Bytecode code = {.instruction = {.mnemonic = COMF, .name = "comf"},
 					 .operand1 = WREG, 
 					 .operand2 = 1, 
-					 .operand3 = 1					
+					 .operand3 = 1,
+					 .absoluteAddress = 0					
 					};
 				
 	//Initialize FSR[0x3E8] to 0xA5
@@ -257,7 +267,7 @@ void test_comf_should_complement_value_in_a_file_register_in_GPR_bank_if_operand
 
 	
 	TEST_ASSERT_EQUAL_HEX8(0x5A, FSR[0x3E8]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 	
 }
 
@@ -268,7 +278,8 @@ void test_comf_should_complement_value_in_a_file_register_in_WREG_if_operand1_is
 	Bytecode code = {.instruction = {.mnemonic = COMF, .name = "comf"},
 					 .operand1 = WREG, 
 					 .operand2 = 1, 
-					 .operand3 = 0					
+					 .operand3 = 0,
+					 .absoluteAddress = 0					
 					};
 				
 	//Initialize FSR[WREG] to 0xA5
@@ -283,7 +294,7 @@ void test_comf_should_complement_value_in_a_file_register_in_WREG_if_operand1_is
 
 	
 	TEST_ASSERT_EQUAL_HEX8(0x5A, FSR[WREG]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 	
 }
 
@@ -294,7 +305,8 @@ void test_comf_should_complement_value_in_a_file_register_in_WREG_if_operand1_is
 	Bytecode code = {.instruction = {.mnemonic = COMF, .name = "comf"},
 					 .operand1 = WREG, 
 					 .operand2 = -1, 
-					 .operand3 = -1					
+					 .operand3 = -1,
+					 .absoluteAddress = 0					
 					};
 				
 	//Initialize FSR[WREG] to 0xA5
@@ -309,7 +321,7 @@ void test_comf_should_complement_value_in_a_file_register_in_WREG_if_operand1_is
 
 	
 	TEST_ASSERT_EQUAL_HEX8(0x5A, FSR[WREG]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 	
 }
 
@@ -320,7 +332,8 @@ void test_comf_should_complement_value_in_a_file_register_in_GPR_bank_if_operand
 	Bytecode code = {.instruction = {.mnemonic = COMF, .name = "comf"},
 					 .operand1 = 0x095, 
 					 .operand2 = -1, 
-					 .operand3 = -1					
+					 .operand3 = -1,
+					 .absoluteAddress = 0				
 					};
 				
 	//Initialize FSR[0x495] to 0xA5
@@ -335,7 +348,7 @@ void test_comf_should_complement_value_in_a_file_register_in_GPR_bank_if_operand
 
 	
 	TEST_ASSERT_EQUAL_HEX8(0x5A, FSR[0x495]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 	
 }
 
@@ -346,7 +359,8 @@ void test_comf_should_complement_value_in_a_file_register_in_ACCESS_bank_if_oper
 	Bytecode code = {.instruction = {.mnemonic = COMF, .name = "comf"},
 					 .operand1 = 0x045, 
 					 .operand2 = ACCESS, 
-					 .operand3 = -1					
+					 .operand3 = -1,
+					 .absoluteAddress = 0					
 					};
 				
 	//Initialize FSR[0x045] to 0xA5
@@ -360,7 +374,7 @@ void test_comf_should_complement_value_in_a_file_register_in_ACCESS_bank_if_oper
 
 	
 	TEST_ASSERT_EQUAL_HEX8(0x5A, FSR[0x045]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 	
 }
 
@@ -371,7 +385,8 @@ void test_comf_should_complement_value_in_a_file_register_in_ACCESS_bank_if_oper
 	Bytecode code = {.instruction = {.mnemonic = COMF, .name = "comf"},
 					 .operand1 = 0x095, 
 					 .operand2 = ACCESS, 
-					 .operand3 = -1					
+					 .operand3 = -1,
+					 .absoluteAddress = 0					
 					};
 				
 	//Initialize FSR[0xF95] to 0xA5
@@ -385,7 +400,7 @@ void test_comf_should_complement_value_in_a_file_register_in_ACCESS_bank_if_oper
 
 	
 	TEST_ASSERT_EQUAL_HEX8(0x5A, FSR[0xF95]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 	
 }
 
@@ -396,7 +411,8 @@ void test_comf_should_complement_value_in_a_file_register_in_GPR_bank_if_operand
 	Bytecode code = {.instruction = {.mnemonic = COMF, .name = "comf"},
 					 .operand1 = 0x065, 
 					 .operand2 = BANKED, 
-					 .operand3 = -1					
+					 .operand3 = -1,
+					 .absoluteAddress = 0					
 					};
 				
 	//Initialize FSR[0x565] to 0xA5
@@ -411,7 +427,7 @@ void test_comf_should_complement_value_in_a_file_register_in_GPR_bank_if_operand
 
 	
 	TEST_ASSERT_EQUAL_HEX8(0x5A, FSR[0x565]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 	
 }
 
@@ -422,7 +438,8 @@ void test_comf_should_set_zero_flag_if_result_is_zero(){
 	Bytecode code = {.instruction = {.mnemonic = COMF, .name = "comf"},
 					 .operand1 = 0x025, 
 					 .operand2 = 1, 
-					 .operand3 = 0					
+					 .operand3 = 0,
+					 .absoluteAddress = 0					
 					};
 				
 	//Initialize FSR[0x025] to 0xFF
@@ -439,7 +456,7 @@ void test_comf_should_set_zero_flag_if_result_is_zero(){
 	
 	TEST_ASSERT_EQUAL_HEX8(0x00, FSR[0x025]);
 	TEST_ASSERT_EQUAL_HEX8(0x06, FSR[STATUS]); // 0x06 = 0000 0110, zero flag and DC flag(initial) set
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 	
 }
 
@@ -450,7 +467,8 @@ void test_comf_should_set_negative_flag_if_result_is_negative(){
 	Bytecode code = {.instruction = {.mnemonic = COMF, .name = "comf"},
 					 .operand1 = 0x010, 
 					 .operand2 = 1, 
-					 .operand3 = 0					
+					 .operand3 = 0,
+					 .absoluteAddress = 0					
 					};
 				
 	//Initialize FSR[0x010] to 0x4A
@@ -467,7 +485,7 @@ void test_comf_should_set_negative_flag_if_result_is_negative(){
 	
 	TEST_ASSERT_EQUAL_HEX8(0xB5, FSR[0x010]);
 	TEST_ASSERT_EQUAL_HEX8(0x12, FSR[STATUS]); // 0x12 = 0001 0010, negative flag and DC flag(initial) set
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 	
 }
 
@@ -478,7 +496,8 @@ void test_comf_should_clear_negative_and_zero_flag(){
 	Bytecode code = {.instruction = {.mnemonic = COMF, .name = "comf"},
 					 .operand1 = 0x015, 
 					 .operand2 = 1, 
-					 .operand3 = 0					
+					 .operand3 = 0,
+					 .absoluteAddress = 0					
 					};
 				
 	//Initialize FSR[0x015] to 0x80
@@ -495,7 +514,7 @@ void test_comf_should_clear_negative_and_zero_flag(){
 	
 	TEST_ASSERT_EQUAL_HEX8(0x7F, FSR[0x015]);
 	TEST_ASSERT_EQUAL_HEX8(0x00, FSR[STATUS]);
-	TEST_ASSERT_EQUAL(0, result);
+	TEST_ASSERT_EQUAL(1, result);
 	
 }
 

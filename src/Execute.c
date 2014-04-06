@@ -5,6 +5,7 @@
 
 unsigned char FSR[0x1000];
 unsigned int PIC18Stack[32];
+unsigned char TABLE[0x200000];
 
 void execute(Bytecode *code){
 }
